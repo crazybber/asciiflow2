@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="Description" content="Infinite ASCII diagrams, save to Google Drive, resize, freeform draw, and export straight to text/html.">
+<meta name="description" content="Infinite ASCII diagrams, resize, freeform draw, and export straight to text/html."/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
@@ -27,12 +27,6 @@ body {
 
 button {
   cursor: pointer;
-}
-
-#drive-file-list li {
-  list-style: none;
-  font-size: 15px;
-  margin: 5px;
 }
 
 #draw-tools {
@@ -106,27 +100,6 @@ button {
   color: #AAA;
 }
 
-#drive-filename {
-  display: inline-block;
-}
-
-#drive-save-state {
-  display: inline-block;
-  line-height: 40px;
-  margin-right: 10px;
-  color: #bbb;
-  font-weight: normal;
-  font-size: 0.9em;
-}
-
-#drive-filename {
-  font-size: 30px;
-  border: gray 1px solid;
-  padding: 5px;
-  background: #EEE;
-  cursor: pointer;
-}
-
 /* Mobile overrides */
 @media(max-width:780px) {
 #logo-bar {
@@ -154,18 +127,9 @@ button {
           box-shadow: 0px -1px 5px 0px #BBB; /* Chrome 6+, Firefox 4+, IE 9+, iOS 5+, Opera 10.50+ */
 }
 
-#drive-save-state {
-  line-height: 44px;
-  margin-right: 6px;
-}
-
 #options-button {
   position: fixed;
   right: 6px;
-}
-
-#drive-filename {
-  display: block;
 }
 }
 
@@ -345,7 +309,6 @@ textarea {
 .move-image { background-image: url('images/move-icon.gif'); }
 .text-image { background-image: url('images/text-icon.gif'); }
 
-.drive-image { background-image: url('images/drive-icon.gif'); }
 .export-image { background-image: url('images/export-icon.gif'); }
 .import-image { background-image: url('images/import-icon.gif'); }
 .clear-image { background-image: url('images/clear-icon.gif'); }
@@ -498,8 +461,6 @@ textarea {
 </div>
 
 <div id="file-tools">
-  <div id="drive-save-state">Unsaved</div>
-  <button id="drive-button" class="tool drive-image"></button>
   <button id="export-button" class="tool export-image"></button>
   <button id="import-button" class="tool import-image"></button>
   <button id="clear-button" class="tool clear-image"></button>
@@ -533,7 +494,6 @@ textarea {
         <div class="info-icon move-image"></div><div class="info-description">Resize boxes and lines. <span>Drag a line to change its size/shape.</span></div><br>
         <div class="info-icon text-image"></div><div class="info-description">Type text. <span>Click and type where you'd like to add text to the canvas.</span></div><br>
         <br>
-        <div class="info-icon-file drive-image"></div><div class="info-description">Save. <span>Connect to Google Drive to save your work automatically.</span></div><br>
         <div class="info-icon-file export-image"></div><div class="info-description">Export. <span>Copy your work to use it outside of ASCIIFlow.</span></div><br>
         <div class="info-icon-file import-image"></div><div class="info-description">Import. <span>Paste ASCII/text to import it onto the canvas.</span></div><br>
         <div class="info-icon-file clear-image"></div><div class="info-description">Clear. <span>Remove the entire contents from the canvas. Can be undone.</span></div><br>
@@ -569,27 +529,12 @@ textarea {
   </div>
 </div>
 
-<div id="drive-dialog" class="dialog">
-  <div id="drive-filename">Untitled ASCII Diagram</div>
-  <div style="margin: 5px;">Edit permissions and manage files in <a href="http://drive.google.com/" target="_blank">Google Drive</a>.</div>
-  <br>
-  <button id="drive-new-file-button">New Drawing</button>
-  <br>
-  <div id="drive-file-list">
-    <!-- filled with li's -->
-  </div>
-  <div class="dialog-button-bar">
-    <button class="close-dialog-button">Close</button>
-  </div>
-</div>
-
 <textarea id="freeform-tool-input"></textarea>
 
 <canvas id="ascii-canvas"></canvas>
 
 <script src="jquery-3.1.1.min.js"></script>
 <script src="js-compiled.js"></script>
-<script src="https://apis.google.com/js/client.js?onload=window.gapiCallback"></script>
 
 <script type="text/javascript">
 var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
