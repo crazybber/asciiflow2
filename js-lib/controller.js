@@ -214,7 +214,10 @@ export default class Controller {
    */
   handleFileButton(id) {
     this.hideDialogs();
-    document.getElementById(id + "-dialog").classList.toggle("visible");
+    var dialog = document.getElementById(id + "-dialog");
+    if (dialog) {
+      dialog.classList.toggle("visible");
+    }
 
     if (id == "import-button") {
       document.getElementById("import-area").value = "";
