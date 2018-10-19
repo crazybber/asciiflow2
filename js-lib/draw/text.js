@@ -20,7 +20,7 @@ export default class DrawText {
   /** @inheritDoc */
   start(position) {
     this.state.commitDraw();
-    $('#text-tool-input').val('');
+    document.getElementById('text-tool-input').value = '';
     this.startPosition = position;
 
     // TODO: Not working yet, needs fixing so that it can
@@ -42,11 +42,13 @@ export default class DrawText {
       this.endPosition = this.startPosition;
       this.startPosition = null;
       // Valid end click/press, show the textbox and focus it.
-      $('#text-tool-widget').hide(0, () => {
-        $('#text-tool-widget').show(0, () => {
-          $('#text-tool-input').focus();
-        });
-      });
+      document.getElementById('text-tool-widget').style.display = 'none';
+      setTimeout(function() {
+        document.getElementById('text-tool-widget').style.display = 'block';
+        setTimeout(function() {
+          document.getElementById('text-tool-input').focus();
+        }, 0);
+      }, 0);
     }
   }
 
@@ -57,7 +59,7 @@ export default class DrawText {
 
   /** @inheritDoc */
   handleKey(value) {
-    var text = /** @type {string} */ ($('#text-tool-input').val());
+    var text = /** @type {string} */ (document.getElementById('text-tool-input').value);
     this.state.clearDraw();
     drawText(this.state, this.endPosition, text);
   }
@@ -97,6 +99,6 @@ export default class DrawText {
       }
       currentPosition.x++;
     }
-    $('#text-tool-input').val(text.substr(0, text.length - 1));
+    document.getElementById('text-tool-input').value = text.substr(0, text.length - 1);
   }
 }

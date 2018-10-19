@@ -14,8 +14,14 @@ export default class DrawFreeform {
     this.state = state;
     this.value = value;
     if (TOUCH_ENABLED) {
-      $('#freeform-tool-input').val('');
-      $('#freeform-tool-input').hide(0, function() {$('#freeform-tool-input').show(0, function() {$('#freeform-tool-input').focus();});});
+      document.getElementById('freeform-tool-input').value = '';
+      document.getElementById('freeform-tool-input').style.display = 'none';
+      setTimeout(function() {
+        document.getElementById('freeform-tool-input').style.display = 'block';
+        setTimeout(function() {
+          document.getElementById('freeform-tool-input').focus();
+        }, 0);
+      }, 0);
     }
   }
 
@@ -42,9 +48,9 @@ export default class DrawFreeform {
   /** @inheritDoc */
   handleKey(value) {
     if (TOUCH_ENABLED) {
-      this.value = $('#freeform-tool-input').val().substr(0, 1);
-      $('#freeform-tool-input').blur();
-      $('#freeform-tool-input').hide(0);
+      this.value = document.getElementById('freeform-tool-input').value.charAt(0);
+      document.getElementById('freeform-tool-input').blur();
+      document.getElementById('freeform-tool-input').style.display = 'none';
     }
     if (value.length == 1) {
       // The value is not a special character, so lets use it.

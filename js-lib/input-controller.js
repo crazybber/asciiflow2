@@ -29,12 +29,12 @@ export class DesktopController {
    * Installs input bindings associated with keyboard controls.
    */
   installBindings() {
-    var canvas = $(this.controller.view.canvas);
-    canvas.on('mousewheel', e => {
-        this.handleZoom(e.originalEvent.wheelDelta);
+    var canvas = this.controller.view.canvas;
+    canvas.addEventListener('mousewheel', e => {
+        this.handleZoom(e.wheelDelta);
     });
 
-    canvas.mousedown(e => {
+    canvas.addEventListener('mousedown', (/** @type {MouseEvent} */ e) => {
         // Can drag by holding either the control or meta (Apple) key.
         if (e.ctrlKey || e.metaKey) {
           this.controller.startDrag(Vector.fromMouseEvent(e));
@@ -44,15 +44,15 @@ export class DesktopController {
     });
 
     // Pass these events through to the main controller.
-    canvas.mouseup(e => {
+    canvas.addEventListener('mouseup', e => {
         this.controller.endAll();
     });
 
-    canvas.mouseleave(e => {
+    canvas.addEventListener('mouseleave', e => {
         this.controller.endAll();
     });
 
-    canvas.mousemove(e => {
+    canvas.addEventListener('mousemove', (/** @type {MouseEvent} */ e) => {
         this.controller.handleMove(Vector.fromMouseEvent(e));
     });
   }
@@ -85,7 +85,7 @@ export class TouchController {
    */
   handlePress(position) {
     this.pressVector = position;
-    this.pressTimestamp = $.now();
+    this.pressTimestamp = Date.now();
     this.dragStarted = false;
 
     // If a drag or zoom didn't start and if we didn't release already, then handle it as a draw.
@@ -116,7 +116,7 @@ export class TouchController {
   handleMove(position) {
     // Initiate a drag if we have moved enough, quickly enough.
     if (!this.dragStarted &&
-        ($.now() - this.pressTimestamp) < c.DRAG_LATENCY &&
+        (Date.now() - this.pressTimestamp) < c.DRAG_LATENCY &&
         position.subtract(this.pressVector).length() > c.DRAG_ACCURACY) {
         this.dragStarted = true;
         this.controller.startDrag(position);
@@ -152,24 +152,24 @@ export class TouchController {
    * Installs input bindings associated with touch controls.
    */
   installBindings() {
-    var canvas = $(this.controller.view.canvas);
+    var canvas = this.controller.view.canvas;
 
-    canvas.on('touchstart', e => {
+    canvas.addEventListener('touchstart', (/** @type {TouchEvent} */ e) => {
         e.preventDefault();
-        if (e.originalEvent.touches.length == 1) {
+        if (e.touches.length == 1) {
           this.handlePress(Vector.fromTouchEvent(e));
-        } else if (e.originalEvent.touches.length > 1) {
+        } else if (e.touches.length > 1) {
           this.handlePressMulti(
             Vector.fromTouchEvent(e, 0),
             Vector.fromTouchEvent(e, 1));
         }
     });
 
-    canvas.on('touchmove', e => {
+    canvas.addEventListener('touchmove', (/** @type {TouchEvent} */ e) => {
         e.preventDefault();
-        if (e.originalEvent.touches.length == 1) {
+        if (e.touches.length == 1) {
           this.handleMove(Vector.fromTouchEvent(e));
-        } else if (e.originalEvent.touches.length > 1) {
+        } else if (e.touches.length > 1) {
           this.handleMoveMulti(
             Vector.fromTouchEvent(e, 0),
             Vector.fromTouchEvent(e, 1));
@@ -177,7 +177,7 @@ export class TouchController {
     });
 
     // Pass through, no special handling.
-    canvas.on('touchend', e => {
+    canvas.addEventListener('touchend', e => {
         e.preventDefault();
         this.reset();
         this.controller.endAll();

@@ -12,7 +12,7 @@ export default class Vector {
   }
 
   /**
-   * @param {jQuery.Event} event
+   * @param {MouseEvent} event
    * @return {!Vector}
    */
   static fromMouseEvent(event) {
@@ -20,12 +20,12 @@ export default class Vector {
   }
 
   /**
-   * @param {jQuery.Event} event
+   * @param {TouchEvent} event
    * @param {number=} index
    * @return {!Vector}
    */
   static fromTouchEvent(event, index = 0) {
-    const { pageX, pageY } = event.originalEvent.touches[index];
+    const { pageX, pageY } = event.touches[index];
     return new Vector(pageX, pageY);
   }
 

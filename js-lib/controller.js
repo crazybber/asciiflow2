@@ -54,6 +54,10 @@ export default class Controller {
     this.dragOriginCell = this.view.offset;
   }
 
+  hideDialogs() {
+    Array.prototype.forEach.call(document.getElementsByClassName("dialog"), el => el.classList.remove("visible"));
+  }
+
   /**
    * @param {Vector} position
    */
@@ -100,62 +104,68 @@ export default class Controller {
    * Installs input bindings for common use cases devices.
    */
   installBindings() {
-    $(window).resize(e => {
+    window.addEventListener("resize", e => {
       this.view.resizeCanvas();
     });
 
-    $("#draw-tools > button.tool").click(e => {
-      $("#text-tool-widget").hide(0);
+    Array.prototype.forEach.call(document.querySelectorAll("#draw-tools > button.tool"), el => el.addEventListener("click", e => {
+      document.getElementById("text-tool-widget").style.display = "none";
       this.handleDrawButton(e.target.id);
-    });
+    }));
 
-    $("#file-tools > button.tool").click(e => {
+    Array.prototype.forEach.call(document.querySelectorAll("#file-tools > button.tool"), el => el.addEventListener("click", e => {
       this.handleFileButton(e.target.id);
-    });
+    }));
 
-    $("button.close-dialog-button").click(e => {
-      $(".dialog").removeClass("visible");
-    });
+    Array.prototype.forEach.call(document.querySelectorAll("button.close-dialog-button"), el => el.addEventListener("click", e => {
+      this.hideDialogs();
+    }));
 
-    $("#import-submit-button").click(e => {
+    document.getElementById("import-submit-button").addEventListener("click", e => {
       this.state.clear();
       this.state.fromText(
         /** @type {string} */
-        ($("#import-area").val()),
+        (document.getElementById("import-area").value),
         this.view.screenToCell(new Vector(this.view.canvas.width / 2, this.view.canvas.height / 2))
       );
       this.state.commitDraw();
-      $("#import-area").val("");
-      $(".dialog").removeClass("visible");
+      document.getElementById("import-area").value = "";
+      this.hideDialogs();
     });
 
-    $("#use-lines-button").click(e => {
-      $(".dialog").removeClass("visible");
+    document.getElementById("use-lines-button").addEventListener("click", e => {
+      this.hideDialogs();
       this.view.setUseLines(true);
     });
 
-    $("#use-ascii-button").click(e => {
-      $(".dialog").removeClass("visible");
+    document.getElementById("use-ascii-button").addEventListener("click", e => {
+      this.hideDialogs();
       this.view.setUseLines(false);
     });
 
-    $(window).keypress(e => {
+    window.addEventListener("keypress", (/** @type {KeyboardEvent} */ e) => {
       this.handleKeyPress(e);
     });
 
-    $(window).keydown(e => {
+    window.addEventListener("keydown", (/** @type {KeyboardEvent} */ e) => {
       this.handleKeyDown(e);
     });
 
     // Bit of a hack, just triggers the text tool to get a new value.
-    $("#text-tool-input, #freeform-tool-input").keyup(() => {
-      this.drawFunction.handleKey("");
+    document.getElementById("text-tool-input").addEventListener("keyup", () => {
+        this.drawFunction.handleKey("");
     });
-    $("#text-tool-input, #freeform-tool-input").change(() => {
-      this.drawFunction.handleKey("");
+    document.getElementById("freeform-tool-input").addEventListener("keyup", () => {
+        this.drawFunction.handleKey("");
     });
-    $("#text-tool-close").click(() => {
-      $("#text-tool-widget").hide();
+    document.getElementById("text-tool-input").addEventListener("change", () => {
+        this.drawFunction.handleKey("");
+    });
+    document.getElementById("freeform-tool-input").addEventListener("change", () => {
+        this.drawFunction.handleKey("");
+    });
+    document.getElementById("text-tool-close").addEventListener("click", () => {
+      document.getElementById("text-tool-widget").style.display = "none";
       this.state.commitDraw();
     });
   }
@@ -165,9 +175,9 @@ export default class Controller {
    * @param {string} id The ID of the element clicked.
    */
   handleDrawButton(id) {
-    $("#draw-tools > button.tool").removeClass("active");
-    $("#" + id).toggleClass("active");
-    $(".dialog").removeClass("visible");
+    Array.prototype.forEach.call(document.querySelectorAll("#draw-tools > button.tool"), el => el.classList.remove("active"));
+    document.getElementById(id).classList.toggle("active");
+    this.hideDialogs();
 
     // Install the right draw tool based on button pressed.
     if (id == "box-button") {
@@ -203,17 +213,17 @@ export default class Controller {
    * @param {string} id The ID of the element clicked.
    */
   handleFileButton(id) {
-    $(".dialog").removeClass("visible");
-    $("#" + id + "-dialog").toggleClass("visible");
+    this.hideDialogs();
+    document.getElementById(id + "-dialog").classList.toggle("visible");
 
     if (id == "import-button") {
-      $("#import-area").val("");
-      $("#import-area").focus();
+      document.getElementById("import-area").value = "";
+      document.getElementById("import-area").focus();
     }
 
     if (id == "export-button") {
-      $("#export-area").val(this.state.outputText());
-      $("#export-area").select();
+      document.getElementById("export-area").value = this.state.outputText();
+      document.getElementById("export-area").select();
     }
     if (id == "clear-button") {
       this.state.clear();
@@ -228,7 +238,7 @@ export default class Controller {
 
   /**
    * Handles key presses.
-   * @param {jQuery.Event} event
+   * @param {KeyboardEvent} event
    */
   handleKeyPress(event) {
     if (!event.ctrlKey && !event.metaKey && event.keyCode != 13) {
@@ -238,7 +248,7 @@ export default class Controller {
 
   /**
    * Handles key down events.
-   * @param {jQuery.Event} event
+   * @param {KeyboardEvent} event
    */
   handleKeyDown(event) {
     // Override some special characters so that they can be handled in one place.
