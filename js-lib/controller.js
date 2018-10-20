@@ -130,8 +130,10 @@ export default class Controller {
 
     document.getElementById("import-submit-button").addEventListener("click", () => {
       this.state.clear();
+      /** @type {string} */
+      const importText = document.getElementById("import-area").value;
       this.state.fromText(
-        /** @type {string} */ document.getElementById("import-area").value,
+        importText,
         this.view.screenToCell(new Vector(this.view.canvas.width / 2, this.view.canvas.height / 2))
       );
       this.state.commitDraw();

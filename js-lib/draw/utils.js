@@ -21,7 +21,7 @@ export function drawLine(
   const midX = clockwise ? endPosition.x : startPosition.x;
   const midY = clockwise ? startPosition.y : endPosition.y;
 
-  for (let {startX} = box; startX < endX; startX++) {
+  for (let startX = box.startX; startX < endX; startX++) {
     const position = new Vector(startX, midY);
     const context = state.getContext(new Vector(startX, midY));
     // Don't erase any lines that we cross.
@@ -29,7 +29,7 @@ export function drawLine(
       state.drawValueIncremental(position, value);
     }
   }
-  for (let {startY} = box; startY < endY; startY++) {
+  for (let startY = box.startY; startY < endY; startY++) {
     const position = new Vector(midX, startY);
     const context = state.getContext(new Vector(midX, startY));
     // Don't erase any lines that we cross.

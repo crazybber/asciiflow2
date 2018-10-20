@@ -71,10 +71,10 @@ export class TouchController {
 
     /** @type {Vector} */ this.pressVector = null;
 
-    /** @type {number} */ this.originalZoom = null;
-    /** @type {number} */ this.zoomLength = null;
+    /** @type {number} */ this.originalZoom = NaN;
+    /** @type {number} */ this.zoomLength = NaN;
 
-    /** @type {number} */ this.pressTimestamp = null;
+    /** @type {number} */ this.pressTimestamp = 0;
     /** @type {boolean} */ this.dragStarted = false;
     /** @type {boolean} */ this.zoomStarted = false;
 

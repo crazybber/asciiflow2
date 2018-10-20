@@ -59,7 +59,8 @@ export default class DrawText {
 
   /** @inheritDoc */
   handleKey(value) {
-    const text = /** @type {string} */ document.getElementById("text-tool-input").value;
+    /** @type {string} */
+    const text = document.getElementById("text-tool-input").value;
     this.state.clearDraw();
     drawText(this.state, this.endPosition, text);
   }
