@@ -14,7 +14,7 @@ export class DesktopController {
     /** @type {boolean} */ this.isDragging = false;
 
     this.installBindings();
-  };
+  }
 
   /**
    * @param {number} delta

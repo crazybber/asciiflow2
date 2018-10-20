@@ -15,7 +15,7 @@ export default class DrawText {
     this.state = state;
     this.startPosition = null;
     this.endPosition = null;
-  };
+  }
 
   /** @inheritDoc */
   start(position) {

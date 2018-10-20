@@ -40,5 +40,5 @@ export default class DrawBox {
   }
 
   /** @inheritDoc */
-  handleKey(value) {};
+  handleKey(value) {}
 }

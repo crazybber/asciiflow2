@@ -193,7 +193,7 @@ export default class View {
   setOffset(offset) {
     this.offset = offset;
     this.dirty = true;
-  };
+  }
 
   /**
    * @param {boolean} useLines

@@ -51,5 +51,5 @@ export default class DrawLine {
   }
 
   /** @inheritDoc */
-  handleKey(value) {};
+  handleKey(value) {}
 }
