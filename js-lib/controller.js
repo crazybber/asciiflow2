@@ -150,10 +150,6 @@ export default class Controller {
       this.view.setUseLines(false);
     });
 
-    window.addEventListener("keypress", (/** @type {KeyboardEvent} */ e) => {
-      this.handleKeyPress(e);
-    });
-
     window.addEventListener("keydown", (/** @type {KeyboardEvent} */ e) => {
       this.handleKeyDown(e);
     });
@@ -247,16 +243,6 @@ export default class Controller {
   }
 
   /**
-   * Handles key presses.
-   * @param {KeyboardEvent} event
-   */
-  handleKeyPress(event) {
-    if (!event.ctrlKey && !event.metaKey && event.keyCode != 13) {
-      this.drawFunction.handleKey(String.fromCharCode(event.keyCode));
-    }
-  }
-
-  /**
    * Handles key down events.
    * @param {KeyboardEvent} event
    */
@@ -264,47 +250,33 @@ export default class Controller {
     // Override some special characters so that they can be handled in one place.
     var specialKeyCode = null;
 
-    if (event.ctrlKey || event.metaKey) {
-      if (event.keyCode == 67) {
+    // event.metaKey is the Command key on Mac
+    if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey) {
+      if (event.key === "c") {
         specialKeyCode = c.KEY_COPY;
       }
-      if (event.keyCode == 86) {
+      if (event.key === "v") {
         specialKeyCode = c.KEY_PASTE;
       }
-      if (event.keyCode == 90) {
+      if (event.key === "z") {
         this.state.undo();
+        return;
       }
-      if (event.keyCode == 89) {
+      if (event.key === "y") {
         this.state.redo();
+        return;
       }
-      if (event.keyCode == 88) {
+      if (event.key === "x") {
         specialKeyCode = c.KEY_CUT;
       }
-    }
-
-    if (event.keyCode == 8) {
-      specialKeyCode = c.KEY_BACKSPACE;
-    }
-    if (event.keyCode == 13) {
-      specialKeyCode = c.KEY_RETURN;
-    }
-    if (event.keyCode == 38) {
-      specialKeyCode = c.KEY_UP;
-    }
-    if (event.keyCode == 40) {
-      specialKeyCode = c.KEY_DOWN;
-    }
-    if (event.keyCode == 37) {
-      specialKeyCode = c.KEY_LEFT;
-    }
-    if (event.keyCode == 39) {
-      specialKeyCode = c.KEY_RIGHT;
     }
 
     if (specialKeyCode != null) {
       //event.preventDefault();
       //event.stopPropagation();
       this.drawFunction.handleKey(specialKeyCode);
+    } else {
+      this.drawFunction.handleKey(event.key);
     }
   }
 }

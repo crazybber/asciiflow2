@@ -28,15 +28,9 @@ export const CHAR_PIXELS_V = 17;
 
 export const RENDER_PADDING_CELLS = 3;
 
-export const KEY_RETURN = '<enter>';
-export const KEY_BACKSPACE = '<backspace>';
-export const KEY_COPY = '<copy>';
-export const KEY_PASTE = '<paste>';
-export const KEY_CUT = '<cut>';
-export const KEY_UP = '<up>';
-export const KEY_DOWN = '<down>';
-export const KEY_LEFT = '<left>';
-export const KEY_RIGHT = '<right>';
+export const KEY_COPY = "Copy";
+export const KEY_PASTE = "Paste";
+export const KEY_CUT = "Cut";
 
 // http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
 export const TOUCH_ENABLED =
