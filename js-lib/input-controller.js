@@ -20,8 +20,9 @@ export class DesktopController {
    * @param {number} delta
    */
   handleZoom(delta) {
-    var newzoom = this.controller.view.zoom * (delta > 0 ? 1.1 : 0.9);
-    newzoom = Math.max(Math.min(newzoom, 5), 0.2);
+    let newzoom = this.controller.view.zoom * Math.pow(0.9, delta);
+    // Limit to +-16 deltas from default.
+    newzoom = Math.max(Math.min(newzoom, 5.396595277354286), 0.18530201888518424);
     this.controller.view.setZoom(newzoom);
   }
 
@@ -30,8 +31,8 @@ export class DesktopController {
    */
   installBindings() {
     var canvas = this.controller.view.canvas;
-    canvas.addEventListener('mousewheel', e => {
-      this.handleZoom(e.wheelDelta);
+    canvas.addEventListener("wheel", e => {
+      this.handleZoom(e.deltaMode === 0 ? e.deltaY / 120 : Math.sign(e.deltaY));
     });
 
     canvas.addEventListener('mousedown', (/** @type {MouseEvent} */ e) => {
