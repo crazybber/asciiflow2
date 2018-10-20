@@ -28,7 +28,6 @@ export default class DrawMove {
     if (!this.state.getCell(this.startPosition).isSpecial()) {
       return;
     }
-    var context = this.state.getContext(this.startPosition);
 
     var ends = [];
     for (var i of c.DIRECTIONS) {

@@ -34,7 +34,6 @@ export default class State {
   clear() {
     for (var i = 0; i < this.cells.length; i++) {
       for (var j = 0; j < this.cells[i].length; j++) {
-        var position = new Vector(i, j);
         if (this.cells[i][j].getRawValue() != null) {
           this.drawValue(new Vector(i, j), c.ERASE_CHAR);
         }
