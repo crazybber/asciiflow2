@@ -1,14 +1,18 @@
-import Vector from '../vector.js';
+import Vector from "../vector.js";
 
 /**
  * Common interface for different drawing functions, e.g. box, line, etc.
  * @interface
  */
 export default class DrawFunction {
-  /** Start of drawing. @param {Vector} position */
+  /** Start of drawing.
+   * @param {Vector} position
+   */
   start(position) {}
 
-  /** Drawing move. @param {Vector} position */
+  /** Drawing move.
+   * @param {Vector} position
+   */
   move(position) {}
 
   /** End of drawing. */
@@ -20,6 +24,8 @@ export default class DrawFunction {
    */
   getCursor(position) {}
 
-  /** Handle the key with given value being pressed. @param {string} value */
+  /** Handle the key with given value being pressed.
+   * @param {string} value
+   */
   handleKey(value) {}
 }

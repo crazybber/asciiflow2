@@ -1,9 +1,9 @@
-import DrawFunction from './function.js';
-import { ERASE_CHAR, KEY_COPY, KEY_CUT, KEY_PASTE } from '../constants.js';
-import Vector from '../vector.js';
-import State from '../state.js';
-import { MappedValue, Box } from '../common.js';
-import DrawErase from './erase.js';
+import DrawFunction from "./function.js";
+import {ERASE_CHAR, KEY_COPY, KEY_CUT, KEY_PASTE} from "../constants.js";
+import Vector from "../vector.js";
+import State from "../state.js";
+import {MappedValue, Box} from "../common.js";
+import DrawErase from "./erase.js";
 
 /**
  * @implements {DrawFunction}
@@ -14,12 +14,16 @@ export default class DrawSelect {
    */
   constructor(state) {
     this.state = state;
+
     /** @type {Vector} */
     this.startPosition = null;
+
     /** @type {Vector} */
     this.endPosition = null;
+
     /** @type {Vector} */
     this.dragStart = null;
+
     /** @type {Vector} */
     this.dragEnd = null;
 
@@ -33,8 +37,8 @@ export default class DrawSelect {
   /** @inheritDoc */
   start(position) {
     // Must be dragging.
-    if (this.startPosition != null &&
-      this.endPosition != null &&
+    if (this.startPosition !== null &&
+      this.endPosition !== null &&
       this.getSelectedBox().contains(position)
     ) {
       this.dragStart = position;
@@ -53,38 +57,38 @@ export default class DrawSelect {
   }
 
   copyArea() {
-    var nonEmptyCells = this.state.scratchCells.filter(function(value) {
-      var rawValue = value.cell.getRawValue();
-      return rawValue != null && rawValue != ERASE_CHAR;
+    const nonEmptyCells = this.state.scratchCells.filter(value => {
+      const rawValue = value.cell.getRawValue();
+      return rawValue !== null && rawValue !== ERASE_CHAR;
     });
-    var topLeft = this.getSelectedBox().topLeft();
-    this.selectedCells = nonEmptyCells.map(function(value) {
-      return new MappedValue(value.position.subtract(topLeft), value.cell.getRawValue());
-    });
+    const topLeft = this.getSelectedBox().topLeft();
+    this.selectedCells = nonEmptyCells.map(
+      value => new MappedValue(value.position.subtract(topLeft), value.cell.getRawValue())
+    );
   }
 
   /** @inheritDoc */
   move(position) {
-    if (this.dragStart != null) {
+    if (this.dragStart !== null) {
       this.dragMove(position);
       return;
     }
 
-    if (this.finished == true) {
+    if (this.finished) {
       return;
     }
     this.endPosition = position;
     this.state.clearDraw();
 
-    var box = new Box(this.startPosition, position);
+    const box = new Box(this.startPosition, position);
 
-    for (var i = box.startX; i <= box.endX; i++) {
-      for (var j = box.startY; j <= box.endY; j++) {
-        var current = new Vector(i, j);
+    for (let i = box.startX; i <= box.endX; i++) {
+      for (let j = box.startY; j <= box.endY; j++) {
+        const current = new Vector(i, j);
         // Effectively highlights the cell.
-        var currentValue = this.state.getCell(current).getRawValue();
+        const currentValue = this.state.getCell(current).getRawValue();
         this.state.drawValue(current,
-          currentValue == null ? ERASE_CHAR : currentValue);
+          currentValue === null ? ERASE_CHAR : currentValue);
       }
     }
   }
@@ -92,22 +96,22 @@ export default class DrawSelect {
   dragMove(position) {
     this.dragEnd = position;
     this.state.clearDraw();
-    var eraser = new DrawErase(this.state);
+    const eraser = new DrawErase(this.state);
     eraser.start(this.startPosition);
     eraser.move(this.endPosition);
-    var startPos = this.dragEnd.subtract(this.dragStart).add(this.getSelectedBox().topLeft());
+    const startPos = this.dragEnd.subtract(this.dragStart).add(this.getSelectedBox().topLeft());
     this.drawSelected(startPos);
   }
 
   drawSelected(startPos) {
-    for (var { position, value } of this.selectedCells) {
+    for (const {position, value} of this.selectedCells) {
       this.state.drawValue(position.add(startPos), value);
     }
   }
 
   /** @inheritDoc */
   end() {
-    if (this.dragStart != null) {
+    if (this.dragStart !== null) {
       this.state.commitDraw();
       this.startPosition = null;
       this.endPosition = null;
@@ -119,29 +123,29 @@ export default class DrawSelect {
 
   /** @inheritDoc */
   getCursor(position) {
-    if (this.startPosition != null &&
-      this.endPosition != null &&
+    if (this.startPosition !== null &&
+      this.endPosition !== null &&
       new Box(this.startPosition, this.endPosition).contains(position)
     ) {
-      return 'pointer';
+      return "pointer";
     }
-    return 'default';
+    return "default";
   }
 
   /** @inheritDoc */
   handleKey(value) {
-    if (this.startPosition != null && this.endPosition != null) {
-      if (value == KEY_COPY || value == KEY_CUT) {
+    if (this.startPosition !== null && this.endPosition !== null) {
+      if (value === KEY_COPY || value === KEY_CUT) {
         this.copyArea();
       }
-      if (value == KEY_CUT) {
-        var eraser = new DrawErase(this.state);
+      if (value === KEY_CUT) {
+        const eraser = new DrawErase(this.state);
         eraser.start(this.startPosition);
         eraser.move(this.endPosition);
         this.state.commitDraw();
       }
     }
-    if (value == KEY_PASTE) {
+    if (value === KEY_PASTE) {
       this.drawSelected(this.startPosition);
       this.state.commitDraw();
     }

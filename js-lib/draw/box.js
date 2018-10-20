@@ -1,7 +1,7 @@
-import State from '../state.js';
-import Vector from '../vector.js';
-import DrawFunction from './function.js';
-import { drawLine } from './utils.js';
+import State from "../state.js";
+import Vector from "../vector.js";
+import DrawFunction from "./function.js";
+import {drawLine} from "./utils.js";
 
 /**
  * @implements {DrawFunction}
@@ -36,7 +36,7 @@ export default class DrawBox {
 
   /** @inheritDoc */
   getCursor(position) {
-    return 'crosshair';
+    return "crosshair";
   }
 
   /** @inheritDoc */

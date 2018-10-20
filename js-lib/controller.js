@@ -18,7 +18,7 @@ import DrawFreeform from "./draw/freeform.js";
 const Mode = {
   NONE: 0,
   DRAG: 1,
-  DRAW: 2
+  DRAW: 2,
 };
 
 /**
@@ -36,8 +36,8 @@ export default class Controller {
     /** @type {DrawFunction} */ this.drawFunction = new DrawBox(state);
 
     /** @type {number} */ this.mode = Mode.NONE;
-    /** @type {Vector} */ this.dragOrigin;
-    /** @type {Vector} */ this.dragOriginCell;
+    /** @type {Vector} */ this.dragOrigin = null;
+    /** @type {Vector} */ this.dragOriginCell = null;
 
     /** @type {Vector} */ this.lastMoveCell = null;
 
@@ -69,10 +69,10 @@ export default class Controller {
    * @param {Vector} position
    */
   handleMove(position) {
-    var moveCell = this.view.screenToCell(position);
+    const moveCell = this.view.screenToCell(position);
 
     // First move event, make sure we don't blow up here.
-    if (this.lastMoveCell == null) {
+    if (this.lastMoveCell === null) {
       this.lastMoveCell = moveCell;
     }
 
@@ -82,12 +82,12 @@ export default class Controller {
     }
 
     // In drawing mode, so pass the mouse move on, but remove duplicates.
-    if (this.mode == Mode.DRAW && !moveCell.equals(this.lastMoveCell)) {
+    if (this.mode === Mode.DRAW && !moveCell.equals(this.lastMoveCell)) {
       this.drawFunction.move(moveCell);
     }
 
     // Drag in progress, update the view origin.
-    if (this.mode == Mode.DRAG) {
+    if (this.mode === Mode.DRAG) {
       this.view.setOffset(this.dragOriginCell.add(this.dragOrigin.subtract(position).scale(1 / this.view.zoom)));
     }
     this.lastMoveCell = moveCell;
@@ -97,7 +97,7 @@ export default class Controller {
    * Ends the current operation.
    */
   endAll() {
-    if (this.mode == Mode.DRAW) {
+    if (this.mode === Mode.DRAW) {
       this.drawFunction.end();
     }
     // Cleanup state.
@@ -111,7 +111,7 @@ export default class Controller {
    * Installs input bindings for common use cases devices.
    */
   installBindings() {
-    window.addEventListener("resize", e => {
+    window.addEventListener("resize", () => {
       this.view.resizeCanvas();
     });
 
@@ -124,15 +124,14 @@ export default class Controller {
       this.handleFileButton(e.target.id);
     }));
 
-    Array.prototype.forEach.call(document.querySelectorAll("button.close-dialog-button"), el => el.addEventListener("click", e => {
+    Array.prototype.forEach.call(document.querySelectorAll("button.close-dialog-button"), el => el.addEventListener("click", () => {
       this.hideDialogs();
     }));
 
-    document.getElementById("import-submit-button").addEventListener("click", e => {
+    document.getElementById("import-submit-button").addEventListener("click", () => {
       this.state.clear();
       this.state.fromText(
-        /** @type {string} */
-        (document.getElementById("import-area").value),
+        /** @type {string} */ document.getElementById("import-area").value,
         this.view.screenToCell(new Vector(this.view.canvas.width / 2, this.view.canvas.height / 2))
       );
       this.state.commitDraw();
@@ -140,12 +139,12 @@ export default class Controller {
       this.hideDialogs();
     });
 
-    document.getElementById("use-lines-button").addEventListener("click", e => {
+    document.getElementById("use-lines-button").addEventListener("click", () => {
       this.hideDialogs();
       this.view.setUseLines(true);
     });
 
-    document.getElementById("use-ascii-button").addEventListener("click", e => {
+    document.getElementById("use-ascii-button").addEventListener("click", () => {
       this.hideDialogs();
       this.view.setUseLines(false);
     });
@@ -183,28 +182,28 @@ export default class Controller {
     this.hideDialogs();
 
     // Install the right draw tool based on button pressed.
-    if (id == "box-button") {
+    if (id === "box-button") {
       this.drawFunction = new DrawBox(this.state);
     }
-    if (id == "line-button") {
+    if (id === "line-button") {
       this.drawFunction = new DrawLine(this.state, false);
     }
-    if (id == "arrow-button") {
+    if (id === "arrow-button") {
       this.drawFunction = new DrawLine(this.state, true);
     }
-    if (id == "freeform-button") {
+    if (id === "freeform-button") {
       this.drawFunction = new DrawFreeform(this.state, "X");
     }
-    if (id == "erase-button") {
+    if (id === "erase-button") {
       this.drawFunction = new DrawErase(this.state);
     }
-    if (id == "move-button") {
+    if (id === "move-button") {
       this.drawFunction = new DrawMove(this.state);
     }
-    if (id == "text-button") {
+    if (id === "text-button") {
       this.drawFunction = new DrawText(this.state, this.view);
     }
-    if (id == "select-button") {
+    if (id === "select-button") {
       this.drawFunction = new DrawSelect(this.state);
     }
     this.state.commitDraw();
@@ -217,27 +216,27 @@ export default class Controller {
    */
   handleFileButton(id) {
     this.hideDialogs();
-    var dialog = document.getElementById(id + "-dialog");
+    const dialog = document.getElementById(`${id}-dialog`);
     if (dialog) {
       dialog.classList.toggle("visible");
     }
 
-    if (id == "import-button") {
+    if (id === "import-button") {
       document.getElementById("import-area").value = "";
       document.getElementById("import-area").focus();
     }
 
-    if (id == "export-button") {
+    if (id === "export-button") {
       document.getElementById("export-area").value = this.state.outputText();
       document.getElementById("export-area").select();
     }
-    if (id == "clear-button") {
+    if (id === "clear-button") {
       this.state.clear();
     }
-    if (id == "undo-button") {
+    if (id === "undo-button") {
       this.state.undo();
     }
-    if (id == "redo-button") {
+    if (id === "redo-button") {
       this.state.redo();
     }
   }
@@ -248,7 +247,7 @@ export default class Controller {
    */
   handleKeyDown(event) {
     // Override some special characters so that they can be handled in one place.
-    var specialKeyCode = null;
+    let specialKeyCode = null;
 
     // event.metaKey is the Command key on Mac
     if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey) {
@@ -271,12 +270,8 @@ export default class Controller {
       }
     }
 
-    if (specialKeyCode != null) {
-      //event.preventDefault();
-      //event.stopPropagation();
-      this.drawFunction.handleKey(specialKeyCode);
-    } else {
-      this.drawFunction.handleKey(event.key);
-    }
+    this.drawFunction.handleKey(
+      specialKeyCode === null ? event.key : specialKeyCode
+    );
   }
 }

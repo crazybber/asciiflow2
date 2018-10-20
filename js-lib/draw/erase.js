@@ -1,7 +1,7 @@
-import DrawFunction from './function.js';
-import { ERASE_CHAR } from '../constants.js';
-import State from '../state.js';
-import Vector from '../vector.js';
+import DrawFunction from "./function.js";
+import {ERASE_CHAR} from "../constants.js";
+import State from "../state.js";
+import Vector from "../vector.js";
 
 /**
  * @implements {DrawFunction}
@@ -27,13 +27,13 @@ export default class DrawErase {
     this.state.clearDraw();
     this.endPosition = position;
 
-    var startX = Math.min(this.startPosition.x, this.endPosition.x);
-    var startY = Math.min(this.startPosition.y, this.endPosition.y);
-    var endX = Math.max(this.startPosition.x, this.endPosition.x);
-    var endY = Math.max(this.startPosition.y, this.endPosition.y);
+    const startX = Math.min(this.startPosition.x, this.endPosition.x);
+    const startY = Math.min(this.startPosition.y, this.endPosition.y);
+    const endX = Math.max(this.startPosition.x, this.endPosition.x);
+    const endY = Math.max(this.startPosition.y, this.endPosition.y);
 
-    for (var i = startX; i <= endX; i++) {
-      for (var j = startY; j <= endY; j++) {
+    for (let i = startX; i <= endX; i++) {
+      for (let j = startY; j <= endY; j++) {
         this.state.drawValue(new Vector(i, j), ERASE_CHAR);
       }
     }
@@ -46,7 +46,7 @@ export default class DrawErase {
 
   /** @inheritDoc */
   getCursor(position) {
-    return 'crosshair';
+    return "crosshair";
   }
 
   /** @inheritDoc */

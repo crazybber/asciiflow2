@@ -2,8 +2,8 @@
  * Common classes and constants.
  */
 
-import { ERASE_CHAR, ALL_SPECIAL_VALUES } from './constants.js';
-import Vector from './vector.js';
+import {ERASE_CHAR, ALL_SPECIAL_VALUES} from "./constants.js";
+import Vector from "./vector.js";
 
 /**
  * Represents a box with normalized position vectors.
@@ -32,8 +32,8 @@ export class Box {
 
   /** @return {boolean} */
   contains(position) {
-    return position.x >= this.startX && position.x <= this.endX
-      && position.y >= this.startY && position.y <= this.endY;
+    return position.x >= this.startX && position.x <= this.endX &&
+      position.y >= this.startY && position.y <= this.endY;
   }
 }
 
@@ -41,7 +41,6 @@ export class Box {
  * An individual cell within the diagram and it's current value.
  */
 export class Cell {
-
   constructor() {
     /** @type {?string} */ this.value = null;
     /** @type {?string} */ this.scratchValue = null;
@@ -49,7 +48,7 @@ export class Cell {
 
   /** @return {?string} */
   getRawValue() {
-    return (this.scratchValue != null ? this.scratchValue : this.value);
+    return this.scratchValue === null ? this.value : this.scratchValue;
   }
 
   /** @return {boolean} */
@@ -59,17 +58,17 @@ export class Cell {
 
   /** @return {boolean} */
   isEmpty() {
-    return this.value == null && this.scratchValue == null;
+    return this.value === null && this.scratchValue === null;
   }
 
   /** @return {boolean} */
   hasScratch() {
-    return this.scratchValue != null;
+    return this.scratchValue !== null;
   }
 
   /** @return {boolean} */
   isErase() {
-    return this.scratchValue == ERASE_CHAR;
+    return this.scratchValue === ERASE_CHAR;
   }
 }
 
@@ -107,8 +106,8 @@ export class CellContext {
    * @return {number}
    */
   extendedSum() {
-    return this.left + this.right + this.up + this.down
-      + this.leftup + this.leftdown + this.rightup + this.rightdown;
+    return this.left + this.right + this.up + this.down +
+      this.leftup + this.leftdown + this.rightup + this.rightdown;
   }
 }
 

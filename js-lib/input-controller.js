@@ -1,6 +1,6 @@
-import * as c from './constants.js';
-import Controller from './controller.js';
-import Vector from './vector.js';
+import * as c from "./constants.js";
+import Controller from "./controller.js";
+import Vector from "./vector.js";
 
 /**
  * Handles desktop inputs, and passes them onto the main controller.
@@ -30,12 +30,12 @@ export class DesktopController {
    * Installs input bindings associated with keyboard controls.
    */
   installBindings() {
-    var canvas = this.controller.view.canvas;
+    const {canvas} = this.controller.view;
     canvas.addEventListener("wheel", e => {
       this.handleZoom(e.deltaMode === 0 ? e.deltaY / 120 : Math.sign(e.deltaY));
     });
 
-    canvas.addEventListener('mousedown', (/** @type {MouseEvent} */ e) => {
+    canvas.addEventListener("mousedown", (/** @type {MouseEvent} */ e) => {
       // Can drag by holding either the control or meta (Apple) key.
       if (e.ctrlKey || e.metaKey) {
         this.controller.startDrag(Vector.fromMouseEvent(e));
@@ -45,15 +45,15 @@ export class DesktopController {
     });
 
     // Pass these events through to the main controller.
-    canvas.addEventListener('mouseup', e => {
+    canvas.addEventListener("mouseup", () => {
       this.controller.endAll();
     });
 
-    canvas.addEventListener('mouseleave', e => {
+    canvas.addEventListener("mouseleave", () => {
       this.controller.endAll();
     });
 
-    canvas.addEventListener('mousemove', (/** @type {MouseEvent} */ e) => {
+    canvas.addEventListener("mousemove", (/** @type {MouseEvent} */ e) => {
       this.controller.handleMove(Vector.fromMouseEvent(e));
     });
   }
@@ -69,12 +69,12 @@ export class TouchController {
   constructor(controller) {
     /** @type {Controller} */ this.controller = controller;
 
-    /** @type {Vector} */ this.pressVector;
+    /** @type {Vector} */ this.pressVector = null;
 
-    /** @type {number} */ this.originalZoom;
-    /** @type {number} */ this.zoomLength;
+    /** @type {number} */ this.originalZoom = null;
+    /** @type {number} */ this.zoomLength = null;
 
-    /** @type {number} */ this.pressTimestamp;
+    /** @type {number} */ this.pressTimestamp = null;
     /** @type {boolean} */ this.dragStarted = false;
     /** @type {boolean} */ this.zoomStarted = false;
 
@@ -91,7 +91,7 @@ export class TouchController {
 
     // If a drag or zoom didn't start and if we didn't release already, then handle it as a draw.
     window.setTimeout(() => {
-      if (!this.dragStarted && !this.zoomStarted && this.pressVector != null) {
+      if (!this.dragStarted && !this.zoomStarted && this.pressVector !== null) {
         this.controller.startDraw(position);
       }
     }, c.DRAG_LATENCY);
@@ -134,7 +134,7 @@ export class TouchController {
    */
   handleMoveMulti(positionOne, positionTwo) {
     if (this.zoomStarted) {
-      var newZoom = this.originalZoom *
+      let newZoom = this.originalZoom *
         positionOne.subtract(positionTwo).length() / this.zoomLength;
       newZoom = Math.max(Math.min(newZoom, 5), 0.5);
       this.controller.view.setZoom(newZoom);
@@ -154,32 +154,34 @@ export class TouchController {
    * Installs input bindings associated with touch controls.
    */
   installBindings() {
-    var canvas = this.controller.view.canvas;
+    const {canvas} = this.controller.view;
 
-    canvas.addEventListener('touchstart', (/** @type {TouchEvent} */ e) => {
+    canvas.addEventListener("touchstart", (/** @type {TouchEvent} */ e) => {
       e.preventDefault();
-      if (e.touches.length == 1) {
+      if (e.touches.length === 1) {
         this.handlePress(Vector.fromTouchEvent(e));
       } else if (e.touches.length > 1) {
         this.handlePressMulti(
           Vector.fromTouchEvent(e, 0),
-          Vector.fromTouchEvent(e, 1));
+          Vector.fromTouchEvent(e, 1)
+        );
       }
     });
 
-    canvas.addEventListener('touchmove', (/** @type {TouchEvent} */ e) => {
+    canvas.addEventListener("touchmove", (/** @type {TouchEvent} */ e) => {
       e.preventDefault();
-      if (e.touches.length == 1) {
+      if (e.touches.length === 1) {
         this.handleMove(Vector.fromTouchEvent(e));
       } else if (e.touches.length > 1) {
         this.handleMoveMulti(
           Vector.fromTouchEvent(e, 0),
-          Vector.fromTouchEvent(e, 1));
+          Vector.fromTouchEvent(e, 1)
+        );
       }
     });
 
     // Pass through, no special handling.
-    canvas.addEventListener('touchend', e => {
+    canvas.addEventListener("touchend", e => {
       e.preventDefault();
       this.reset();
       this.controller.endAll();

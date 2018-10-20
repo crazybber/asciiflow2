@@ -1,7 +1,7 @@
-import { SPECIAL_VALUE } from '../constants.js';
-import { Box } from '../common.js';
-import State from '../state.js';
-import Vector from '../vector.js';
+import {SPECIAL_VALUE} from "../constants.js";
+import {Box} from "../common.js";
+import State from "../state.js";
+import Vector from "../vector.js";
 
 /**
  * Draws a line on the diagram state.
@@ -15,29 +15,25 @@ import Vector from '../vector.js';
 export function drawLine(
   state, startPosition, endPosition, clockwise, value = SPECIAL_VALUE
 ) {
+  const box = new Box(startPosition, endPosition);
+  const {endX, endY} = box;
 
-  var box = new Box(startPosition, endPosition);
-  var startX = box.startX;
-  var startY = box.startY;
-  var endX = box.endX;
-  var endY = box.endY;
+  const midX = clockwise ? endPosition.x : startPosition.x;
+  const midY = clockwise ? startPosition.y : endPosition.y;
 
-  var midX = clockwise ? endPosition.x : startPosition.x;
-  var midY = clockwise ? startPosition.y : endPosition.y;
-
-  while (startX++ < endX) {
-    var position = new Vector(startX, midY);
-    var context = state.getContext(new Vector(startX, midY));
+  for (let {startX} = box; startX < endX; startX++) {
+    const position = new Vector(startX, midY);
+    const context = state.getContext(new Vector(startX, midY));
     // Don't erase any lines that we cross.
-    if (value != ' ' || context.up + context.down != 2) {
+    if (value !== " " || context.up + context.down !== 2) {
       state.drawValueIncremental(position, value);
     }
   }
-  while (startY++ < endY) {
-    var position = new Vector(midX, startY);
-    var context = state.getContext(new Vector(midX, startY));
+  for (let {startY} = box; startY < endY; startY++) {
+    const position = new Vector(midX, startY);
+    const context = state.getContext(new Vector(midX, startY));
     // Don't erase any lines that we cross.
-    if (value != ' ' || context.left + context.right != 2) {
+    if (value !== " " || context.left + context.right !== 2) {
       state.drawValueIncremental(position, value);
     }
   }
@@ -55,14 +51,15 @@ export function drawLine(
  * @param {string} text
  */
 export function drawText(state, position, text) {
-  let x = 0, y = 0;
-  for (const char of text) {
-    if (char == '\n') {
-      y++;
+  let x = 0;
+  let y = 0;
+  for (const ch of text) {
+    if (ch === "\n") {
+      y += 1;
       x = 0;
       continue;
     }
-    state.drawValue(position.add(new Vector(x, y)), char);
-    x++;
+    state.drawValue(position.add(new Vector(x, y)), ch);
+    x += 1;
   }
 }

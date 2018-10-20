@@ -25,7 +25,7 @@ export default class Vector {
    * @return {!Vector}
    */
   static fromTouchEvent(event, index = 0) {
-    const { pageX, pageY } = event.touches[index];
+    const {pageX, pageY} = event.touches[index];
     return new Vector(pageX, pageY);
   }
 
@@ -34,7 +34,7 @@ export default class Vector {
    * @return {boolean}
    */
   equals(other) {
-    return (other != null) && (this.x == other.x) && (this.y == other.y);
+    return (other !== null) && (other !== undefined) && (this.x === other.x) && (this.y === other.y);
   }
 
   /**

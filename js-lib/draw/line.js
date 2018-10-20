@@ -1,8 +1,8 @@
-import DrawFunction from './function.js';
-import { drawLine } from './utils.js';
-import { ALT_SPECIAL_VALUE } from '../constants.js';
-import State from '../state.js';
-import Vector from '../vector.js';
+import DrawFunction from "./function.js";
+import {drawLine} from "./utils.js";
+import {ALT_SPECIAL_VALUE} from "../constants.js";
+import State from "../state.js";
+import Vector from "../vector.js";
 
 /**
  * @implements {DrawFunction}
@@ -29,9 +29,9 @@ export default class DrawLine {
 
     // Try to infer line orientation.
     // TODO: Split the line into two lines if we can't satisfy both ends.
-    var startContext = this.state.getContext(this.startPosition);
-    var endContext = this.state.getContext(position);
-    var clockwise = (startContext.up && startContext.down) ||
+    const startContext = this.state.getContext(this.startPosition);
+    const endContext = this.state.getContext(position);
+    const clockwise = (startContext.up && startContext.down) ||
       (endContext.left && endContext.right);
 
     drawLine(this.state, this.startPosition, position, clockwise);
@@ -47,7 +47,7 @@ export default class DrawLine {
 
   /** @inheritDoc */
   getCursor(position) {
-    return 'crosshair';
+    return "crosshair";
   }
 
   /** @inheritDoc */
