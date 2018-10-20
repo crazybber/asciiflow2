@@ -353,39 +353,21 @@ textarea {
 /* New intro animation */
 
 .animated {
-  -webkit-animation-duration: 3s;
   animation-duration: 3s;
-  -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
 
-@-webkit-keyframes bounceOut {
-  0%    { -webkit-transform: scale(0.90); transform: scale(0.90); opacity: 0; }
-  12.5% { -webkit-transform: scale(1.00); transform: scale(1.00); opacity: 1; }
-  73%   { -webkit-transform: scale(1.00); transform: scale(1.00); }
-  83%   { -webkit-transform: scale(0.95); transform: scale(0.95); }
-  92%   { -webkit-transform: scale(1.10); transform: scale(1.10); }
-  100%  { -webkit-transform: scale(0.30); transform: scale(0.30); }
-}
-
 @keyframes bounceOut {
-  0%    { -webkit-transform: scale(0.90); transform: scale(0.90); opacity: 0; }
-  12.5% { -webkit-transform: scale(1.00); transform: scale(1.00); opacity: 1; }
-  73%   { -webkit-transform: scale(1.00); transform: scale(1.00); }
-  83%   { -webkit-transform: scale(0.95); transform: scale(0.95); }
-  92%   { -webkit-transform: scale(1.10); transform: scale(1.10); }
-  100%  { -webkit-transform: scale(0.30); transform: scale(0.30); }
+  0%    { transform: scale(0.90); opacity: 0; }
+  12.5% { transform: scale(1.00); opacity: 1; }
+  73%   { transform: scale(1.00); }
+  83%   { transform: scale(0.95); }
+  92%   { transform: scale(1.10); }
+  100%  { transform: scale(0.30); }
 }
 
 .bounceOut {
-  -webkit-animation-name: bounceOut;
   animation-name: bounceOut;
-}
-
-@-webkit-keyframes fadeOut {
-  0%   { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { opacity: 0; }
 }
 
 @keyframes fadeOut {
@@ -396,7 +378,6 @@ textarea {
 }
 
 .fadeOut {
-  -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
 }
 
