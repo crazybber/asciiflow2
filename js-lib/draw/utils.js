@@ -1,7 +1,7 @@
-import { SPECIAL_VALUE } from '../constants';
-import { Box } from '../common';
-import State from '../state';
-import Vector from '../vector';
+import { SPECIAL_VALUE } from '../constants.js';
+import { Box } from '../common.js';
+import State from '../state.js';
+import Vector from '../vector.js';
 
 /**
  * Draws a line on the diagram state.

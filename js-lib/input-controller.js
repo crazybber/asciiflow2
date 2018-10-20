@@ -1,6 +1,6 @@
-import * as c from './constants';
-import Controller from './controller';
-import Vector from './vector';
+import * as c from './constants.js';
+import Controller from './controller.js';
+import Vector from './vector.js';
 
 /**
  * Handles desktop inputs, and passes them onto the main controller.

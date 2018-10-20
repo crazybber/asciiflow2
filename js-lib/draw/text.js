@@ -1,8 +1,8 @@
-import { DrawFunction } from './function';
-import { ERASE_CHAR } from '../constants';
-import State from '../state';
-import Vector from '../vector';
-import { drawText } from './utils';
+import DrawFunction from './function.js';
+import { ERASE_CHAR } from '../constants.js';
+import State from '../state.js';
+import Vector from '../vector.js';
+import { drawText } from './utils.js';
 
 /**
  * @implements {DrawFunction}

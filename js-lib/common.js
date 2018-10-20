@@ -2,8 +2,8 @@
  * Common classes and constants.
  */
 
-import { ERASE_CHAR, ALL_SPECIAL_VALUES } from './constants';
-import Vector from './vector';
+import { ERASE_CHAR, ALL_SPECIAL_VALUES } from './constants.js';
+import Vector from './vector.js';
 
 /**
  * Represents a box with normalized position vectors.

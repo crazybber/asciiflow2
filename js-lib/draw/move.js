@@ -1,8 +1,8 @@
-import { DrawFunction } from './function';
-import { drawLine } from './utils';
-import State from '../state';
-import Vector from '../vector';
-import * as c from '../constants';
+import DrawFunction from './function.js';
+import { drawLine } from './utils.js';
+import State from '../state.js';
+import Vector from '../vector.js';
+import * as c from '../constants.js';
 
 /**
  * @implements {DrawFunction}

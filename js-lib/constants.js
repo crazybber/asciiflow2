@@ -1,4 +1,4 @@
-import Vector from './vector';
+import Vector from './vector.js';
 
 export const MAX_GRID_WIDTH = 2000;
 export const MAX_GRID_HEIGHT = 600;

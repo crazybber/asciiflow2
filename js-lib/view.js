@@ -1,6 +1,6 @@
-import State from './state';
-import Vector from './vector';
-import * as c from './constants';
+import State from './state.js';
+import Vector from './vector.js';
+import * as c from './constants.js';
 
 /**
  * Handles view operations, state and management of the screen.

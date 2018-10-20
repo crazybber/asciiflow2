@@ -1,7 +1,7 @@
-import State from '../state';
-import Vector from '../vector';
-import DrawFunction from './function';
-import { drawLine } from './utils';
+import State from '../state.js';
+import Vector from '../vector.js';
+import DrawFunction from './function.js';
+import { drawLine } from './utils.js';
 
 /**
  * @implements {DrawFunction}

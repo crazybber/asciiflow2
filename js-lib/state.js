@@ -1,6 +1,6 @@
-import Vector from './vector';
-import { Cell, MappedValue, MappedCell, CellContext, Box } from './common';
-import * as c from './constants';
+import Vector from './vector.js';
+import { Cell, MappedValue, MappedCell, CellContext, Box } from './common.js';
+import * as c from './constants.js';
 
 /**
  * Holds the entire state of the diagram as a 2D array of cells

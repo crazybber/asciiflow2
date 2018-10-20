@@ -1,4 +1,4 @@
-import Vector from '../vector';
+import Vector from '../vector.js';
 
 /**
  * Common interface for different drawing functions, e.g. box, line, etc.

@@ -1,6 +1,6 @@
-import { DrawFunction } from './function';
-import { TOUCH_ENABLED } from '../constants';
-import State from '../state';
+import DrawFunction from './function.js';
+import { TOUCH_ENABLED } from '../constants.js';
+import State from '../state.js';
 
 /**
  * @implements {DrawFunction}

@@ -1,9 +1,16 @@
-import * as c from "./constants";
-import Vector from "./vector";
-import View from "./view";
-import State from "./state";
-import { DrawFunction, DrawBox, DrawLine, DrawFreeform, DrawErase, DrawMove, DrawText, DrawSelect } from "./draw/index";
-import DrawFunction from "./draw/function";
+import * as c from "./constants.js";
+import Vector from "./vector.js";
+import View from "./view.js";
+import State from "./state.js";
+import DrawFunction from "./draw/function.js";
+import DrawBox from "./draw/box.js";
+import DrawErase from "./draw/erase.js";
+import DrawLine from "./draw/line.js";
+import DrawSelect from "./draw/select.js";
+import DrawText from "./draw/text.js";
+import DrawMove from "./draw/move.js";
+import DrawFreeform from "./draw/freeform.js";
+
 
 /**
  * Different modes of control.

@@ -1,9 +1,9 @@
-import DrawFunction from './function';
-import { ERASE_CHAR, KEY_COPY, KEY_CUT, KEY_PASTE } from '../constants';
-import Vector from '../vector';
-import State from '../state';
-import { MappedValue, Box } from '../common';
-import DrawErase from './erase';
+import DrawFunction from './function.js';
+import { ERASE_CHAR, KEY_COPY, KEY_CUT, KEY_PASTE } from '../constants.js';
+import Vector from '../vector.js';
+import State from '../state.js';
+import { MappedValue, Box } from '../common.js';
+import DrawErase from './erase.js';
 
 /**
  * @implements {DrawFunction}
