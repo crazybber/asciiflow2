@@ -366,6 +366,13 @@ textarea {
   100%  { transform: scale(0.30); }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  @keyframes bounceOut {
+    0%    { opacity: 0; }
+    12.5% { opacity: 1; }
+  }
+}
+
 .bounceOut {
   animation-name: bounceOut;
 }
