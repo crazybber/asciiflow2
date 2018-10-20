@@ -17,8 +17,8 @@ export default class View {
 
     /** @type {number} */ this.zoom = 1;
     /** @type {Vector} */ this.offset = new Vector(
-        c.MAX_GRID_WIDTH * c.CHAR_PIXELS_H / 2,
-        c.MAX_GRID_HEIGHT * c.CHAR_PIXELS_V / 2);
+      c.MAX_GRID_WIDTH * c.CHAR_PIXELS_H / 2,
+      c.MAX_GRID_HEIGHT * c.CHAR_PIXELS_V / 2);
 
     /** @type {boolean} */ this.dirty = true;
     // TODO: Should probably save this setting in a cookie or something.
@@ -62,20 +62,16 @@ export default class View {
 
     context.scale(this.zoom, this.zoom);
     context.translate(
-        this.canvas.width / 2 / this.zoom,
-        this.canvas.height / 2 / this.zoom);
+      this.canvas.width / 2 / this.zoom,
+      this.canvas.height / 2 / this.zoom);
 
     // Only render grid lines and cells that are visible.
-    var startOffset = this.screenToCell(new Vector(
-        0,
-        0))
-        .subtract(new Vector(
-        c.RENDER_PADDING_CELLS, c.RENDER_PADDING_CELLS));
-    var endOffset = this.screenToCell(new Vector(
-        this.canvas.width,
-        this.canvas.height))
-        .add(new Vector(
-        c.RENDER_PADDING_CELLS, c.RENDER_PADDING_CELLS));
+    var startOffset =
+      this.screenToCell(new Vector(0, 0))
+        .subtract(new Vector(c.RENDER_PADDING_CELLS, c.RENDER_PADDING_CELLS));
+    var endOffset =
+      this.screenToCell(new Vector(this.canvas.width, this.canvas.height))
+        .add(new Vector(c.RENDER_PADDING_CELLS, c.RENDER_PADDING_CELLS));
 
     startOffset.x = Math.max(0, Math.min(startOffset.x, c.MAX_GRID_WIDTH));
     endOffset.x = Math.max(0, Math.min(endOffset.x, c.MAX_GRID_WIDTH));
@@ -88,19 +84,19 @@ export default class View {
     context.beginPath();
     for (var i = startOffset.x; i < endOffset.x; i++) {
       context.moveTo(
-          i * c.CHAR_PIXELS_H - this.offset.x,
-          0 - this.offset.y);
+        i * c.CHAR_PIXELS_H - this.offset.x,
+        0 - this.offset.y);
       context.lineTo(
-          i * c.CHAR_PIXELS_H - this.offset.x,
-          this.state.cells.length * c.CHAR_PIXELS_V - this.offset.y);
+        i * c.CHAR_PIXELS_H - this.offset.x,
+        this.state.cells.length * c.CHAR_PIXELS_V - this.offset.y);
     }
     for (var j = startOffset.y; j < endOffset.y; j++) {
       context.moveTo(
-          0 - this.offset.x,
-          j * c.CHAR_PIXELS_V - this.offset.y);
+        0 - this.offset.x,
+        j * c.CHAR_PIXELS_V - this.offset.y);
       context.lineTo(
-          this.state.cells.length * c.CHAR_PIXELS_H - this.offset.x,
-          j * c.CHAR_PIXELS_V - this.offset.y);
+        this.state.cells.length * c.CHAR_PIXELS_H - this.offset.x,
+        j * c.CHAR_PIXELS_V - this.offset.y);
     }
     this.context.stroke();
     this.renderText(context, startOffset, endOffset, !this.useLines);
@@ -121,16 +117,16 @@ export default class View {
             (cell.hasScratch() && cell.getRawValue() != ' ')) {
           this.context.fillStyle = cell.hasScratch() ? '#DEF' : '#F5F5F5';
           context.fillRect(
-              i * c.CHAR_PIXELS_H - this.offset.x,
-              (j - 1) * c.CHAR_PIXELS_V - this.offset.y,
-              c.CHAR_PIXELS_H, c.CHAR_PIXELS_V);
+            i * c.CHAR_PIXELS_H - this.offset.x,
+            (j - 1) * c.CHAR_PIXELS_V - this.offset.y,
+            c.CHAR_PIXELS_H, c.CHAR_PIXELS_V);
         }
         var cellValue = this.state.getDrawValue(new Vector(i, j));
         if (cellValue != null && (!cell.isSpecial() || drawSpecials)) {
           this.context.fillStyle = '#000000';
           context.fillText(cellValue,
-              i * c.CHAR_PIXELS_H - this.offset.x,
-              j * c.CHAR_PIXELS_V - this.offset.y - 3);
+            i * c.CHAR_PIXELS_H - this.offset.x,
+            j * c.CHAR_PIXELS_V - this.offset.y - 3);
         }
       }
     }
@@ -146,11 +142,11 @@ export default class View {
         var cell = this.state.getCell(new Vector(i, j));
         if ((!cell.isSpecial() || j == endOffset.y - 1) && startY) {
           context.moveTo(
-              i * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H/2,
-              startY * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V/2);
+            i * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
+            startY * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2);
           context.lineTo(
-              i * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H/2,
-              (j - 1) * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V/2);
+            i * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
+            (j - 1) * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2);
           startY = false;
         }
         if (cell.isSpecial() && !startY) {
@@ -164,11 +160,11 @@ export default class View {
         var cell = this.state.getCell(new Vector(i, j));
         if ((!cell.isSpecial() || i == endOffset.x - 1) && startX) {
           context.moveTo(
-              startX * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H/2,
-              j * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V/2);
+            startX * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
+            j * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2);
           context.lineTo(
-              (i -1) * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H/2,
-              j * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V/2);
+            (i - 1) * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
+            j * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2);
           startX = false;
         }
         if (cell.isSpecial() && !startX) {
@@ -210,8 +206,8 @@ export default class View {
    */
   screenToFrame(vector) {
     return new Vector(
-        (vector.x - this.canvas.width / 2) / this.zoom + this.offset.x,
-        (vector.y - this.canvas.height / 2) / this.zoom + this.offset.y);
+      (vector.x - this.canvas.width / 2) / this.zoom + this.offset.x,
+      (vector.y - this.canvas.height / 2) / this.zoom + this.offset.y);
   }
 
   /**
@@ -221,8 +217,8 @@ export default class View {
    */
   frameToScreen(vector) {
     return new Vector(
-        (vector.x - this.offset.x) * this.zoom + this.canvas.width / 2,
-        (vector.y - this.offset.y) * this.zoom + this.canvas.height / 2);
+      (vector.x - this.offset.x) * this.zoom + this.canvas.width / 2,
+      (vector.y - this.offset.y) * this.zoom + this.canvas.height / 2);
   }
 
   /**
@@ -234,11 +230,11 @@ export default class View {
     // We limit the edges in a bit, as most drawing needs a full context to work.
     return new Vector(
       Math.min(Math.max(1,
-          Math.round((vector.x - c.CHAR_PIXELS_H / 2) / c.CHAR_PIXELS_H)),
-          c.MAX_GRID_WIDTH - 2),
+        Math.round((vector.x - c.CHAR_PIXELS_H / 2) / c.CHAR_PIXELS_H)),
+      c.MAX_GRID_WIDTH - 2),
       Math.min(Math.max(1,
-          Math.round((vector.y + c.CHAR_PIXELS_V / 2) / c.CHAR_PIXELS_V)),
-          c.MAX_GRID_HEIGHT - 2));
+        Math.round((vector.y + c.CHAR_PIXELS_V / 2) / c.CHAR_PIXELS_V)),
+      c.MAX_GRID_HEIGHT - 2));
   }
 
   /**
@@ -248,8 +244,8 @@ export default class View {
    */
   cellToFrame(vector) {
     return new Vector(
-        Math.round(vector.x * c.CHAR_PIXELS_H),
-        Math.round(vector.y * c.CHAR_PIXELS_V));
+      Math.round(vector.x * c.CHAR_PIXELS_H),
+      Math.round(vector.y * c.CHAR_PIXELS_V));
   }
 
   /**

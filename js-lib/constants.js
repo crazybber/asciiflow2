@@ -40,8 +40,8 @@ export const KEY_RIGHT = '<right>';
 
 // http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
 export const TOUCH_ENABLED =
-    'ontouchstart' in window ||
-    'onmsgesturechange' in window;
+  'ontouchstart' in window ||
+  'onmsgesturechange' in window;
 
 export const DIR_LEFT  = new Vector(-1,  0);
 export const DIR_RIGHT = new Vector( 1,  0);

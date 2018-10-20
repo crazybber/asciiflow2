@@ -21,7 +21,7 @@ export default class DrawMove {
   /** @inheritDoc */
   start(position) {
     this.startPosition =
-        c.TOUCH_ENABLED ? this.snapToNearest(position) : position;
+      c.TOUCH_ENABLED ? this.snapToNearest(position) : position;
     this.ends = [];
 
     // If this isn't a special cell then quit, or things get weird.
@@ -153,7 +153,8 @@ export default class DrawMove {
       var newPos = position.add(direction);
       var contextSum = this.state.getContext(newPos).sum();
       if (this.state.getCell(newPos).isSpecial() &&
-          contextSum > bestContextSum) {
+        contextSum > bestContextSum
+      ) {
         bestDirection = direction;
         bestContextSum = contextSum;
       }

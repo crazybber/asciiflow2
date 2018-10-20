@@ -30,7 +30,7 @@ export default class DrawText {
     // Effectively highlights the starting cell.
     var currentValue = this.state.getCell(this.startPosition).getRawValue();
     this.state.drawValue(this.startPosition,
-        currentValue == null ? ERASE_CHAR : currentValue);
+      currentValue == null ? ERASE_CHAR : currentValue);
   }
 
   /** @inheritDoc */

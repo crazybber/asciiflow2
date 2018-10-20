@@ -34,8 +34,9 @@ export default class DrawSelect {
   start(position) {
     // Must be dragging.
     if (this.startPosition != null &&
-        this.endPosition != null &&
-        this.getSelectedBox().contains(position)) {
+      this.endPosition != null &&
+      this.getSelectedBox().contains(position)
+    ) {
       this.dragStart = position;
       this.copyArea();
       this.dragMove(position);
@@ -83,7 +84,7 @@ export default class DrawSelect {
         // Effectively highlights the cell.
         var currentValue = this.state.getCell(current).getRawValue();
         this.state.drawValue(current,
-            currentValue == null ? ERASE_CHAR : currentValue);
+          currentValue == null ? ERASE_CHAR : currentValue);
       }
     }
   }
@@ -119,8 +120,9 @@ export default class DrawSelect {
   /** @inheritDoc */
   getCursor(position) {
     if (this.startPosition != null &&
-        this.endPosition != null &&
-        new Box(this.startPosition, this.endPosition).contains(position)) {
+      this.endPosition != null &&
+      new Box(this.startPosition, this.endPosition).contains(position)
+    ) {
       return 'pointer';
     }
     return 'default';
@@ -128,8 +130,7 @@ export default class DrawSelect {
 
   /** @inheritDoc */
   handleKey(value) {
-    if (this.startPosition != null &&
-        this.endPosition != null) {
+    if (this.startPosition != null && this.endPosition != null) {
       if (value == KEY_COPY || value == KEY_CUT) {
         this.copyArea();
       }

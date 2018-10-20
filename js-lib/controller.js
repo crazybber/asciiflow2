@@ -160,16 +160,16 @@ export default class Controller {
 
     // Bit of a hack, just triggers the text tool to get a new value.
     document.getElementById("text-tool-input").addEventListener("keyup", () => {
-        this.drawFunction.handleKey("");
+      this.drawFunction.handleKey("");
     });
     document.getElementById("freeform-tool-input").addEventListener("keyup", () => {
-        this.drawFunction.handleKey("");
+      this.drawFunction.handleKey("");
     });
     document.getElementById("text-tool-input").addEventListener("change", () => {
-        this.drawFunction.handleKey("");
+      this.drawFunction.handleKey("");
     });
     document.getElementById("freeform-tool-input").addEventListener("change", () => {
-        this.drawFunction.handleKey("");
+      this.drawFunction.handleKey("");
     });
     document.getElementById("text-tool-close").addEventListener("click", () => {
       document.getElementById("text-tool-widget").style.display = "none";

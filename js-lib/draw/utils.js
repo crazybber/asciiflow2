@@ -13,7 +13,8 @@ import Vector from '../vector.js';
  * @param {string=} value
  */
 export function drawLine(
-    state, startPosition, endPosition, clockwise, value = SPECIAL_VALUE) {
+  state, startPosition, endPosition, clockwise, value = SPECIAL_VALUE
+) {
 
   var box = new Box(startPosition, endPosition);
   var startX = box.startX;

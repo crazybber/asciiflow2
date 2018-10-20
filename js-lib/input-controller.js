@@ -31,29 +31,29 @@ export class DesktopController {
   installBindings() {
     var canvas = this.controller.view.canvas;
     canvas.addEventListener('mousewheel', e => {
-        this.handleZoom(e.wheelDelta);
+      this.handleZoom(e.wheelDelta);
     });
 
     canvas.addEventListener('mousedown', (/** @type {MouseEvent} */ e) => {
-        // Can drag by holding either the control or meta (Apple) key.
-        if (e.ctrlKey || e.metaKey) {
-          this.controller.startDrag(Vector.fromMouseEvent(e));
-        } else {
-          this.controller.startDraw(Vector.fromMouseEvent(e));
-        }
+      // Can drag by holding either the control or meta (Apple) key.
+      if (e.ctrlKey || e.metaKey) {
+        this.controller.startDrag(Vector.fromMouseEvent(e));
+      } else {
+        this.controller.startDraw(Vector.fromMouseEvent(e));
+      }
     });
 
     // Pass these events through to the main controller.
     canvas.addEventListener('mouseup', e => {
-        this.controller.endAll();
+      this.controller.endAll();
     });
 
     canvas.addEventListener('mouseleave', e => {
-        this.controller.endAll();
+      this.controller.endAll();
     });
 
     canvas.addEventListener('mousemove', (/** @type {MouseEvent} */ e) => {
-        this.controller.handleMove(Vector.fromMouseEvent(e));
+      this.controller.handleMove(Vector.fromMouseEvent(e));
     });
   }
 }
@@ -116,10 +116,11 @@ export class TouchController {
   handleMove(position) {
     // Initiate a drag if we have moved enough, quickly enough.
     if (!this.dragStarted &&
-        (Date.now() - this.pressTimestamp) < c.DRAG_LATENCY &&
-        position.subtract(this.pressVector).length() > c.DRAG_ACCURACY) {
-        this.dragStarted = true;
-        this.controller.startDrag(position);
+      (Date.now() - this.pressTimestamp) < c.DRAG_LATENCY &&
+      position.subtract(this.pressVector).length() > c.DRAG_ACCURACY
+    ) {
+      this.dragStarted = true;
+      this.controller.startDrag(position);
     }
     // Pass on the event.
     this.controller.handleMove(position);
@@ -133,7 +134,7 @@ export class TouchController {
   handleMoveMulti(positionOne, positionTwo) {
     if (this.zoomStarted) {
       var newZoom = this.originalZoom *
-          positionOne.subtract(positionTwo).length() / this.zoomLength;
+        positionOne.subtract(positionTwo).length() / this.zoomLength;
       newZoom = Math.max(Math.min(newZoom, 5), 0.5);
       this.controller.view.setZoom(newZoom);
     }
@@ -155,32 +156,32 @@ export class TouchController {
     var canvas = this.controller.view.canvas;
 
     canvas.addEventListener('touchstart', (/** @type {TouchEvent} */ e) => {
-        e.preventDefault();
-        if (e.touches.length == 1) {
-          this.handlePress(Vector.fromTouchEvent(e));
-        } else if (e.touches.length > 1) {
-          this.handlePressMulti(
-            Vector.fromTouchEvent(e, 0),
-            Vector.fromTouchEvent(e, 1));
-        }
+      e.preventDefault();
+      if (e.touches.length == 1) {
+        this.handlePress(Vector.fromTouchEvent(e));
+      } else if (e.touches.length > 1) {
+        this.handlePressMulti(
+          Vector.fromTouchEvent(e, 0),
+          Vector.fromTouchEvent(e, 1));
+      }
     });
 
     canvas.addEventListener('touchmove', (/** @type {TouchEvent} */ e) => {
-        e.preventDefault();
-        if (e.touches.length == 1) {
-          this.handleMove(Vector.fromTouchEvent(e));
-        } else if (e.touches.length > 1) {
-          this.handleMoveMulti(
-            Vector.fromTouchEvent(e, 0),
-            Vector.fromTouchEvent(e, 1));
-        }
+      e.preventDefault();
+      if (e.touches.length == 1) {
+        this.handleMove(Vector.fromTouchEvent(e));
+      } else if (e.touches.length > 1) {
+        this.handleMoveMulti(
+          Vector.fromTouchEvent(e, 0),
+          Vector.fromTouchEvent(e, 1));
+      }
     });
 
     // Pass through, no special handling.
     canvas.addEventListener('touchend', e => {
-        e.preventDefault();
-        this.reset();
-        this.controller.endAll();
+      e.preventDefault();
+      this.reset();
+      this.controller.endAll();
     });
   }
 }

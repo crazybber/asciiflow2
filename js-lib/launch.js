@@ -17,13 +17,13 @@ if (window["ASCIIFLOW2_LOADED"]) {
  * Runs the application.
  */
 (function() {
-    var state = new State();
-    var view = new View(state);
-    var controller = new Controller(view, state);
-    var touchController = new TouchController(controller);
-    var desktopController = new DesktopController(controller);
-    view.animate();
-    window.setTimeout(function() {
-      document.getElementById('logo-interstitial').style.display = "none";
-    }, 3000);
+  var state = new State();
+  var view = new View(state);
+  var controller = new Controller(view, state);
+  var touchController = new TouchController(controller);
+  var desktopController = new DesktopController(controller);
+  view.animate();
+  window.setTimeout(function() {
+    document.getElementById('logo-interstitial').style.display = "none";
+  }, 3000);
 })();

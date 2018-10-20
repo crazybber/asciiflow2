@@ -33,7 +33,7 @@ export class Box {
   /** @return {boolean} */
   contains(position) {
     return position.x >= this.startX && position.x <= this.endX
-        && position.y >= this.startY && position.y <= this.endY;
+      && position.y >= this.startY && position.y <= this.endY;
   }
 }
 
@@ -108,7 +108,7 @@ export class CellContext {
    */
   extendedSum() {
     return this.left + this.right + this.up + this.down
-         + this.leftup + this.leftdown + this.rightup + this.rightdown;
+      + this.leftup + this.leftdown + this.rightup + this.rightdown;
   }
 }
 

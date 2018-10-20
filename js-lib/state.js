@@ -219,7 +219,7 @@ export default class State {
 
       // Push the effective old value unto the array.
       oldValues.push(new MappedValue(position,
-          cell.value != null ? cell.value : ' '));
+        cell.value != null ? cell.value : ' '));
 
       var newValue = cell.getRawValue();
       if (newValue == c.ERASE_CHAR || newValue == ' ') {

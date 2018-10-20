@@ -32,7 +32,7 @@ export default class DrawLine {
     var startContext = this.state.getContext(this.startPosition);
     var endContext = this.state.getContext(position);
     var clockwise = (startContext.up && startContext.down) ||
-        (endContext.left && endContext.right);
+      (endContext.left && endContext.right);
 
     drawLine(this.state, this.startPosition, position, clockwise);
     if (this.isArrow) {
