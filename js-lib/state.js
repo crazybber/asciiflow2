@@ -291,7 +291,7 @@ export default class State {
           }
         }
       }
-      if (end.x < 0) { return '' }
+      if (end.x < 0) { return ''; }
     } else {
       start = opt_box.topLeft();
       end = opt_box.bottomRight();
