@@ -54,7 +54,7 @@ export default class DrawSelect {
   copyArea() {
     var nonEmptyCells = this.state.scratchCells.filter(function(value) {
       var rawValue = value.cell.getRawValue();
-      return value.cell.getRawValue() != null && value.cell.getRawValue() != ERASE_CHAR;
+      return rawValue != null && rawValue != ERASE_CHAR;
     });
     var topLeft = this.getSelectedBox().topLeft();
     this.selectedCells = nonEmptyCells.map(function(value) {
