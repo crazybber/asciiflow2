@@ -23,4 +23,7 @@ if (window["ASCIIFLOW2_LOADED"]) {
     var touchController = new TouchController(controller);
     var desktopController = new DesktopController(controller);
     view.animate();
+    window.setTimeout(function() {
+      document.getElementById('logo-interstitial').style.display = "none";
+    }, 3000);
 })();
