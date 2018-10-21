@@ -1,4 +1,4 @@
-import * as c from "./constants.js";
+import {KEY_COPY, KEY_PASTE, KEY_CUT} from "./constants.js";
 import {Vector} from "./vector.js";
 import {View} from "./view.js";
 import {State} from "./state.js";
@@ -255,10 +255,10 @@ export class Controller {
     // event.metaKey is the Command key on Mac
     if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey) {
       if (event.key === "c") {
-        specialKeyCode = c.KEY_COPY;
+        specialKeyCode = KEY_COPY;
       }
       if (event.key === "v") {
-        specialKeyCode = c.KEY_PASTE;
+        specialKeyCode = KEY_PASTE;
       }
       if (event.key === "z") {
         this.state.undo();
@@ -269,7 +269,7 @@ export class Controller {
         return;
       }
       if (event.key === "x") {
-        specialKeyCode = c.KEY_CUT;
+        specialKeyCode = KEY_CUT;
       }
     }
 

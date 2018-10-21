@@ -1,4 +1,4 @@
-import * as c from "./constants.js";
+import {DRAG_LATENCY, DRAG_ACCURACY} from "./constants.js";
 import {Controller} from "./controller.js";
 import {Vector} from "./vector.js";
 
@@ -94,7 +94,7 @@ export class TouchController {
       if (!this.dragStarted && !this.zoomStarted && this.pressVector !== null) {
         this.controller.startDraw(position);
       }
-    }, c.DRAG_LATENCY);
+    }, DRAG_LATENCY);
   }
 
   /**
@@ -117,8 +117,8 @@ export class TouchController {
   handleMove(position) {
     // Initiate a drag if we have moved enough, quickly enough.
     if (!this.dragStarted &&
-      (Date.now() - this.pressTimestamp) < c.DRAG_LATENCY &&
-      position.subtract(this.pressVector || new Vector(0, 0)).length() > c.DRAG_ACCURACY
+      (Date.now() - this.pressTimestamp) < DRAG_LATENCY &&
+      position.subtract(this.pressVector || new Vector(0, 0)).length() > DRAG_ACCURACY
     ) {
       this.dragStarted = true;
       this.controller.startDrag(position);

@@ -2,7 +2,15 @@ import {DrawFunction} from "./function.js";
 import {drawLine} from "./utils.js";
 import {State} from "../state.js";
 import {Vector} from "../vector.js";
-import * as c from "../constants.js";
+import {
+  ALT_SPECIAL_VALUE,
+  ALT_SPECIAL_VALUES,
+  DIRECTIONS,
+  DIR_DOWN,
+  DIR_LEFT,
+  DIR_RIGHT,
+  DIR_UP,
+} from "../constants.js";
 
 /**
  * @implements {DrawFunction}
@@ -33,13 +41,13 @@ export class DrawMove {
     }
 
     const ends = [];
-    for (const i of c.DIRECTIONS) {
+    for (const i of DIRECTIONS) {
       const midPoints = this.followLine(this.startPosition, i);
       for (const midPoint of midPoints) {
         // Clockwise is a lie, it is true if we move vertically first.
         const clockwise = i.x !== 0;
-        const startIsAlt = c.ALT_SPECIAL_VALUES.indexOf(this.state.getCell(position).getRawValue()) !== -1;
-        const midPointIsAlt = c.ALT_SPECIAL_VALUES.indexOf(this.state.getCell(midPoint).getRawValue()) !== -1;
+        const startIsAlt = ALT_SPECIAL_VALUES.indexOf(this.state.getCell(position).getRawValue()) !== -1;
+        const midPointIsAlt = ALT_SPECIAL_VALUES.indexOf(this.state.getCell(midPoint).getRawValue()) !== -1;
 
         const midPointContext = this.state.getContext(midPoint);
         // Special case, a straight line with no turns.
@@ -48,7 +56,7 @@ export class DrawMove {
           continue;
         }
         // Continue following lines from the midpoint.
-        for (const j of c.DIRECTIONS) {
+        for (const j of DIRECTIONS) {
           if (i.add(j).length() === 0 || i.add(j).length() === 2) {
             // Don't go back on ourselves, or don't carry on in same direction.
             continue;
@@ -59,7 +67,7 @@ export class DrawMove {
             continue;
           }
           const [secondEnd] = secondEnds;
-          const endIsAlt = c.ALT_SPECIAL_VALUES.indexOf(this.state.getCell(secondEnd).getRawValue()) !== -1;
+          const endIsAlt = ALT_SPECIAL_VALUES.indexOf(this.state.getCell(secondEnd).getRawValue()) !== -1;
           // On the second line we don't care about multiple
           // junctions, just the last.
           ends.push({position: secondEnd, clockwise, startIsAlt, midPointIsAlt, endIsAlt});
@@ -84,15 +92,15 @@ export class DrawMove {
     for (const end of this.ends) {
       // If the ends or midpoint of the line was a alt character (arrow), need to preserve that.
       if (end.startIsAlt) {
-        this.state.drawValue(position, c.ALT_SPECIAL_VALUE);
+        this.state.drawValue(position, ALT_SPECIAL_VALUE);
       }
       if (end.endIsAlt) {
-        this.state.drawValue(end.position, c.ALT_SPECIAL_VALUE);
+        this.state.drawValue(end.position, ALT_SPECIAL_VALUE);
       }
       if (end.midPointIsAlt) {
         const midX = end.clockwise ? end.position.x : position.x;
         const midY = end.clockwise ? position.y : end.position.y;
-        this.state.drawValue(new Vector(midX, midY), c.ALT_SPECIAL_VALUE);
+        this.state.drawValue(new Vector(midX, midY), ALT_SPECIAL_VALUE);
       }
     }
   }
@@ -143,11 +151,11 @@ export class DrawMove {
     if (this.state.getCell(position).isSpecial()) {
       return position;
     }
-    const allDirections = c.DIRECTIONS.concat([
-      c.DIR_LEFT.add(c.DIR_UP),
-      c.DIR_LEFT.add(c.DIR_DOWN),
-      c.DIR_RIGHT.add(c.DIR_UP),
-      c.DIR_RIGHT.add(c.DIR_DOWN),
+    const allDirections = DIRECTIONS.concat([
+      DIR_LEFT.add(DIR_UP),
+      DIR_LEFT.add(DIR_DOWN),
+      DIR_RIGHT.add(DIR_UP),
+      DIR_RIGHT.add(DIR_DOWN),
     ]);
 
     let bestDirection = null;

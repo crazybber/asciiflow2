@@ -1,6 +1,12 @@
 import {State} from "./state.js";
 import {Vector} from "./vector.js";
-import * as c from "./constants.js";
+import {
+  CHAR_PIXELS_H,
+  CHAR_PIXELS_V,
+  MAX_GRID_HEIGHT,
+  MAX_GRID_WIDTH,
+  RENDER_PADDING_CELLS,
+} from "./constants.js";
 
 /**
  * Handles view operations, state and management of the screen.
@@ -22,8 +28,8 @@ export class View {
 
     /** @type {number} */ this.zoom = 1;
     /** @type {!Vector} */ this.offset = new Vector(
-      c.MAX_GRID_WIDTH * c.CHAR_PIXELS_H / 2,
-      c.MAX_GRID_HEIGHT * c.CHAR_PIXELS_V / 2
+      MAX_GRID_WIDTH * CHAR_PIXELS_H / 2,
+      MAX_GRID_HEIGHT * CHAR_PIXELS_V / 2
     );
 
     /** @type {boolean} */ this.dirty = true;
@@ -77,15 +83,15 @@ export class View {
     // Only render grid lines and cells that are visible.
     const startOffset =
       this.screenToCell(new Vector(0, 0))
-        .subtract(new Vector(c.RENDER_PADDING_CELLS, c.RENDER_PADDING_CELLS));
+        .subtract(new Vector(RENDER_PADDING_CELLS, RENDER_PADDING_CELLS));
     const endOffset =
       this.screenToCell(new Vector(this.canvas.width, this.canvas.height))
-        .add(new Vector(c.RENDER_PADDING_CELLS, c.RENDER_PADDING_CELLS));
+        .add(new Vector(RENDER_PADDING_CELLS, RENDER_PADDING_CELLS));
 
-    startOffset.x = Math.max(0, Math.min(startOffset.x, c.MAX_GRID_WIDTH));
-    endOffset.x = Math.max(0, Math.min(endOffset.x, c.MAX_GRID_WIDTH));
-    startOffset.y = Math.max(0, Math.min(startOffset.y, c.MAX_GRID_HEIGHT));
-    endOffset.y = Math.max(0, Math.min(endOffset.y, c.MAX_GRID_HEIGHT));
+    startOffset.x = Math.max(0, Math.min(startOffset.x, MAX_GRID_WIDTH));
+    endOffset.x = Math.max(0, Math.min(endOffset.x, MAX_GRID_WIDTH));
+    startOffset.y = Math.max(0, Math.min(startOffset.y, MAX_GRID_HEIGHT));
+    endOffset.y = Math.max(0, Math.min(endOffset.y, MAX_GRID_HEIGHT));
 
     // Render the grid.
     context.lineWidth = "1";
@@ -93,22 +99,22 @@ export class View {
     context.beginPath();
     for (let i = startOffset.x; i < endOffset.x; i++) {
       context.moveTo(
-        i * c.CHAR_PIXELS_H - this.offset.x,
+        i * CHAR_PIXELS_H - this.offset.x,
         0 - this.offset.y
       );
       context.lineTo(
-        i * c.CHAR_PIXELS_H - this.offset.x,
-        this.state.cells.length * c.CHAR_PIXELS_V - this.offset.y
+        i * CHAR_PIXELS_H - this.offset.x,
+        this.state.cells.length * CHAR_PIXELS_V - this.offset.y
       );
     }
     for (let j = startOffset.y; j < endOffset.y; j++) {
       context.moveTo(
         0 - this.offset.x,
-        j * c.CHAR_PIXELS_V - this.offset.y
+        j * CHAR_PIXELS_V - this.offset.y
       );
       context.lineTo(
-        this.state.cells.length * c.CHAR_PIXELS_H - this.offset.x,
-        j * c.CHAR_PIXELS_V - this.offset.y
+        this.state.cells.length * CHAR_PIXELS_H - this.offset.x,
+        j * CHAR_PIXELS_V - this.offset.y
       );
     }
     this.context.stroke();
@@ -130,17 +136,17 @@ export class View {
             (cell.hasScratch() && cell.getRawValue() !== " ")) {
           this.context.fillStyle = cell.hasScratch() ? "#DEF" : "#F5F5F5";
           context.fillRect(
-            i * c.CHAR_PIXELS_H - this.offset.x,
-            (j - 1) * c.CHAR_PIXELS_V - this.offset.y,
-            c.CHAR_PIXELS_H, c.CHAR_PIXELS_V
+            i * CHAR_PIXELS_H - this.offset.x,
+            (j - 1) * CHAR_PIXELS_V - this.offset.y,
+            CHAR_PIXELS_H, CHAR_PIXELS_V
           );
         }
         const cellValue = this.state.getDrawValue(new Vector(i, j));
         if (cellValue !== null && (!cell.isSpecial() || drawSpecials)) {
           this.context.fillStyle = "#000000";
           context.fillText(cellValue,
-            i * c.CHAR_PIXELS_H - this.offset.x,
-            j * c.CHAR_PIXELS_V - this.offset.y - 3);
+            i * CHAR_PIXELS_H - this.offset.x,
+            j * CHAR_PIXELS_V - this.offset.y - 3);
         }
       }
     }
@@ -156,12 +162,12 @@ export class View {
         const cell = this.state.getCell(new Vector(i, j));
         if ((!cell.isSpecial() || j === endOffset.y - 1) && startY) {
           context.moveTo(
-            i * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
-            startY * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2
+            i * CHAR_PIXELS_H - this.offset.x + CHAR_PIXELS_H / 2,
+            startY * CHAR_PIXELS_V - this.offset.y - CHAR_PIXELS_V / 2
           );
           context.lineTo(
-            i * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
-            (j - 1) * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2
+            i * CHAR_PIXELS_H - this.offset.x + CHAR_PIXELS_H / 2,
+            (j - 1) * CHAR_PIXELS_V - this.offset.y - CHAR_PIXELS_V / 2
           );
           startY = false;
         }
@@ -176,12 +182,12 @@ export class View {
         const cell = this.state.getCell(new Vector(i, j));
         if ((!cell.isSpecial() || i === endOffset.x - 1) && startX) {
           context.moveTo(
-            startX * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
-            j * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2
+            startX * CHAR_PIXELS_H - this.offset.x + CHAR_PIXELS_H / 2,
+            j * CHAR_PIXELS_V - this.offset.y - CHAR_PIXELS_V / 2
           );
           context.lineTo(
-            (i - 1) * c.CHAR_PIXELS_H - this.offset.x + c.CHAR_PIXELS_H / 2,
-            j * c.CHAR_PIXELS_V - this.offset.y - c.CHAR_PIXELS_V / 2
+            (i - 1) * CHAR_PIXELS_H - this.offset.x + CHAR_PIXELS_H / 2,
+            j * CHAR_PIXELS_V - this.offset.y - CHAR_PIXELS_V / 2
           );
           startX = false;
         }
@@ -250,11 +256,11 @@ export class View {
     // We limit the edges in a bit, as most drawing needs a full context to work.
     return new Vector(
       Math.min(Math.max(1,
-        Math.round((vector.x - c.CHAR_PIXELS_H / 2) / c.CHAR_PIXELS_H)),
-      c.MAX_GRID_WIDTH - 2),
+        Math.round((vector.x - CHAR_PIXELS_H / 2) / CHAR_PIXELS_H)),
+      MAX_GRID_WIDTH - 2),
       Math.min(Math.max(1,
-        Math.round((vector.y + c.CHAR_PIXELS_V / 2) / c.CHAR_PIXELS_V)),
-      c.MAX_GRID_HEIGHT - 2)
+        Math.round((vector.y + CHAR_PIXELS_V / 2) / CHAR_PIXELS_V)),
+      MAX_GRID_HEIGHT - 2)
     );
   }
 
@@ -265,8 +271,8 @@ export class View {
    */
   cellToFrame(vector) {
     return new Vector(
-      Math.round(vector.x * c.CHAR_PIXELS_H),
-      Math.round(vector.y * c.CHAR_PIXELS_V)
+      Math.round(vector.x * CHAR_PIXELS_H),
+      Math.round(vector.y * CHAR_PIXELS_V)
     );
   }
 

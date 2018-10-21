@@ -1,6 +1,20 @@
 import {Vector} from "./vector.js";
 import {Cell, MappedValue, MappedCell, CellContext, Box} from "./common.js";
-import * as c from "./constants.js";
+import {
+  ALT_SPECIAL_VALUES,
+  ERASE_CHAR,
+  MAX_GRID_HEIGHT,
+  MAX_GRID_WIDTH,
+  MAX_UNDO,
+  SPECIAL_ARROW_DOWN,
+  SPECIAL_ARROW_LEFT,
+  SPECIAL_ARROW_RIGHT,
+  SPECIAL_ARROW_UP,
+  SPECIAL_LINE_H,
+  SPECIAL_LINE_V,
+  SPECIAL_VALUE,
+  SPECIAL_VALUES,
+} from "./constants.js";
 
 /**
  * Holds the entire state of the diagram as a 2D array of cells
@@ -9,7 +23,7 @@ import * as c from "./constants.js";
 export class State {
   constructor() {
     /** @type {!Array<!Array<!Cell>>} */
-    this.cells = new Array(c.MAX_GRID_WIDTH);
+    this.cells = new Array(MAX_GRID_WIDTH);
 
     /** @type {!Array<!MappedCell>} */
     this.scratchCells = [];
@@ -24,7 +38,7 @@ export class State {
     this.redoStates = [];
 
     for (let i = 0; i < this.cells.length; i++) {
-      this.cells[i] = new Array(c.MAX_GRID_HEIGHT);
+      this.cells[i] = new Array(MAX_GRID_HEIGHT);
       for (let j = 0; j < this.cells[i].length; j++) {
         this.cells[i][j] = new Cell();
       }
@@ -38,7 +52,7 @@ export class State {
     for (let i = 0; i < this.cells.length; i++) {
       for (let j = 0; j < this.cells[i].length; j++) {
         if (this.cells[i][j].getRawValue() !== null) {
-          this.drawValue(new Vector(i, j), c.ERASE_CHAR);
+          this.drawValue(new Vector(i, j), ERASE_CHAR);
         }
       }
     }
@@ -104,8 +118,8 @@ export class State {
   getDrawValue(position) {
     const cell = this.getCell(position);
     const value = cell.getRawValue();
-    const isSpecial = c.SPECIAL_VALUES.includes(value);
-    const isAltSpecial = c.ALT_SPECIAL_VALUES.includes(value);
+    const isSpecial = SPECIAL_VALUES.includes(value);
+    const isAltSpecial = ALT_SPECIAL_VALUES.includes(value);
     if (!isSpecial && !isAltSpecial) {
       return value;
     }
@@ -116,67 +130,67 @@ export class State {
     const context = this.getContext(position);
 
     if (isSpecial && context.left && context.right && !context.up && !context.down) {
-      return c.SPECIAL_LINE_H;
+      return SPECIAL_LINE_H;
     }
     if (isSpecial && !context.left && !context.right && context.up && context.down) {
-      return c.SPECIAL_LINE_V;
+      return SPECIAL_LINE_V;
     }
     if (context.sum() === 4) {
-      return c.SPECIAL_LINE_H;
+      return SPECIAL_LINE_H;
     }
     if (isAltSpecial && context.sum() === 3) {
       if (!context.left) {
-        return c.SPECIAL_ARROW_LEFT;
+        return SPECIAL_ARROW_LEFT;
       }
       if (!context.up) {
-        return c.SPECIAL_ARROW_UP;
+        return SPECIAL_ARROW_UP;
       }
       if (!context.down) {
-        return c.SPECIAL_ARROW_DOWN;
+        return SPECIAL_ARROW_DOWN;
       }
       if (!context.right) {
-        return c.SPECIAL_ARROW_RIGHT;
+        return SPECIAL_ARROW_RIGHT;
       }
     }
     if ((isSpecial || isAltSpecial) && context.sum() === 3) {
       this.extendContext(position, context);
       if (!context.right && context.leftup && context.leftdown) {
-        return c.SPECIAL_LINE_V;
+        return SPECIAL_LINE_V;
       }
       if (!context.left && context.rightup && context.rightdown) {
-        return c.SPECIAL_LINE_V;
+        return SPECIAL_LINE_V;
       }
       if (!context.down && context.leftup && context.rightup) {
-        return c.SPECIAL_LINE_H;
+        return SPECIAL_LINE_H;
       }
       if (!context.up && context.rightdown && context.leftdown) {
-        return c.SPECIAL_LINE_H;
+        return SPECIAL_LINE_H;
       }
       const leftupempty = this.getCell(position.left().up()).isEmpty();
       const rightupempty = this.getCell(position.right().up()).isEmpty();
       if (context.up && context.left && context.right && (!leftupempty || !rightupempty)) {
-        return c.SPECIAL_LINE_H;
+        return SPECIAL_LINE_H;
       }
       const leftdownempty = this.getCell(position.left().down()).isEmpty();
       const rightdownempty = this.getCell(position.right().down()).isEmpty();
       if (context.down && context.left && context.right && (!leftdownempty || !rightdownempty)) {
-        return c.SPECIAL_LINE_H;
+        return SPECIAL_LINE_H;
       }
-      return c.SPECIAL_VALUE;
+      return SPECIAL_VALUE;
     }
 
     if (isAltSpecial && context.sum() === 1) {
       if (context.left) {
-        return c.SPECIAL_ARROW_RIGHT;
+        return SPECIAL_ARROW_RIGHT;
       }
       if (context.up) {
-        return c.SPECIAL_ARROW_DOWN;
+        return SPECIAL_ARROW_DOWN;
       }
       if (context.down) {
-        return c.SPECIAL_ARROW_UP;
+        return SPECIAL_ARROW_UP;
       }
       if (context.right) {
-        return c.SPECIAL_ARROW_LEFT;
+        return SPECIAL_ARROW_LEFT;
       }
     }
     return value;
@@ -228,7 +242,7 @@ export class State {
         cell.value === null ? " " : cell.value));
 
       let newValue = cell.getRawValue();
-      if (newValue === c.ERASE_CHAR || newValue === " ") {
+      if (newValue === ERASE_CHAR || newValue === " ") {
         newValue = null;
       }
       // Let's store the actual drawed value, so behaviour matches what the user sees.
@@ -242,7 +256,7 @@ export class State {
     const stateStack = opt_undo ? this.redoStates : this.undoStates;
     if (oldValues.length > 0) {
       // If we have too many states, clear one out.
-      if (stateStack.length > c.MAX_UNDO) {
+      if (stateStack.length > MAX_UNDO) {
         stateStack.shift();
       }
       stateStack.push(oldValues);
@@ -322,7 +336,7 @@ export class State {
       let line = "";
       for (let i = start.x; i <= end.x; i++) {
         const val = this.getDrawValue(new Vector(i, j));
-        line += val === null || val === c.ERASE_CHAR ? " " : val;
+        line += val === null || val === ERASE_CHAR ? " " : val;
       }
       // Trim end whitespace.
       output += line.replace(/\s+$/, "");
@@ -349,8 +363,8 @@ export class State {
         // Convert special output back to special chars.
         // TODO: This is a horrible hack, need to handle multiple special chars
         // correctly and preserve them through line drawing etc.
-        if (c.SPECIAL_VALUES.includes(ch)) {
-          ch = c.SPECIAL_VALUE;
+        if (SPECIAL_VALUES.includes(ch)) {
+          ch = SPECIAL_VALUE;
         }
         this.drawValue(new Vector(i, j).add(offset).subtract(middle), ch);
       }
