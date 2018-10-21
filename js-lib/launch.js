@@ -23,7 +23,4 @@ if (window["ASCIIFLOW2_LOADED"]) {
   const touchController = new TouchController(controller);
   const desktopController = new DesktopController(controller);
   view.animate();
-  window.setTimeout(() => {
-    document.getElementById("logo-interstitial").style.display = "none";
-  }, 3000);
 })();

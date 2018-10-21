@@ -24,7 +24,6 @@
 <link rel="preload" href="images/redo-icon.png" as="image"/>
 <link rel="preload" href="images/select-icon.png" as="image"/>
 <link rel="preload" href="images/info-icon.png" as="image"/>
-<link rel="preload" href="images/logo-full.png" as="image"/>
 <link rel="preload" href="images/logo-bar.png" as="image"/>
 <link rel="preload" href="images/logo-options.png" as="image"/>
 <title>ASCIIFlow Infinity</title>
@@ -290,31 +289,6 @@ textarea {
   white-space: pre;
 }
 
-#logo-interstitial {
-  text-align: center;
-  vertical-align: middle;
-  background-color: #FFF;
-  z-index: 200;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  //transition: opacity 1.5s ease-in-out;
-  background-size: 100%;
-  //pointer-events: none;
-}
-
-#logo-interstitial > img {
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
 #text-tool-widget {
   display: none;
   z-index: 100;
@@ -350,51 +324,9 @@ textarea {
 
 .info-image { background-image: url('images/info-icon.png'); }
 
-/* New intro animation */
-
-.animated {
-  animation-duration: 3s;
-  animation-fill-mode: both;
-}
-
-@keyframes bounceOut {
-  0%    { transform: scale(0.90); opacity: 0; }
-  12.5% { transform: scale(1.00); opacity: 1; }
-  73%   { transform: scale(1.00); }
-  83%   { transform: scale(0.95); }
-  92%   { transform: scale(1.10); }
-  100%  { transform: scale(0.30); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  @keyframes bounceOut {
-    0%    { opacity: 0; }
-    12.5% { opacity: 1; }
-  }
-}
-
-.bounceOut {
-  animation-name: bounceOut;
-}
-
-@keyframes fadeOut {
-  0%   { opacity: 1; }
-  90%  { opacity: 1; }
-  95%  { opacity: 0.5; pointer-events: none; }
-  100% { opacity: 0; display: none; }
-}
-
-.fadeOut {
-  animation-name: fadeOut;
-}
-
 </style>
 </head>
 <body>
-
-<div id="logo-interstitial" class="animated fadeOut">
-  <img src="images/logo-full.png" class="animated bounceOut" alt="ASCIIFlow Infinity" />
-</div>
 
 <img id="logo-bar" src="images/logo-bar.png" width="88" height="24" alt="ASCIIFlow" />
 
