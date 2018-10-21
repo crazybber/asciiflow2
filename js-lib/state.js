@@ -1,4 +1,4 @@
-import Vector from "./vector.js";
+import {Vector} from "./vector.js";
 import {Cell, MappedValue, MappedCell, CellContext, Box} from "./common.js";
 import * as c from "./constants.js";
 
@@ -6,21 +6,21 @@ import * as c from "./constants.js";
  * Holds the entire state of the diagram as a 2D array of cells
  * and provides methods to modify the current state.
  */
-export default class State {
+export class State {
   constructor() {
-    /** @type {!Array<Array<Cell>>} */
+    /** @type {!Array<!Array<!Cell>>} */
     this.cells = new Array(c.MAX_GRID_WIDTH);
 
-    /** @type {!Array<MappedCell>} */
+    /** @type {!Array<!MappedCell>} */
     this.scratchCells = [];
 
     /** @type {boolean} */
     this.dirty = true;
 
-    /** @type {!Array<Array<MappedValue>>|!Iterable<Iterable<MappedValue>>} */
+    /** @type {!Array<!Array<!MappedValue>>|!Iterable<!Iterable<!MappedValue>>} */
     this.undoStates = [];
 
-    /** @type {!Array<Array<MappedValue>>|!Iterable<Iterable<MappedValue>>} */
+    /** @type {!Array<!Array<!MappedValue>>|!Iterable<!Iterable<!MappedValue>>} */
     this.redoStates = [];
 
     for (let i = 0; i < this.cells.length; i++) {
@@ -48,17 +48,21 @@ export default class State {
   /**
    * Returns the cell at the given coordinates.
    *
-   * @param {Vector} vector
-   * @return {Cell}
+   * @param {!Vector} vector
+   * @return {!Cell}
    */
   getCell(vector) {
-    return this.cells[vector.x][vector.y];
+    const cell = this.cells[vector.x][vector.y];
+    if (cell === undefined || cell === null) {
+      throw new Error("Cell not found");
+    }
+    return cell;
   }
 
   /**
    * Sets the cells scratch (uncommitted) value at the given position.
    *
-   * @param {Vector} position
+   * @param {!Vector} position
    * @param {?string} value
    */
   drawValue(position, value) {
@@ -72,7 +76,7 @@ export default class State {
    * Sets the cells scratch (uncommitted) value at the given position
    * iff the value is different to what it already is.
    *
-   * @param {Vector} position
+   * @param {!Vector} position
    * @param {?string} value
    */
   drawValueIncremental(position, value) {
@@ -94,7 +98,7 @@ export default class State {
   /**
    * Returns the draw value of a cell at the given position.
    *
-   * @param {Vector} position
+   * @param {!Vector} position
    * @return {?string}
    */
   getDrawValue(position) {
@@ -179,8 +183,8 @@ export default class State {
   }
 
   /**
-   * @param {Vector} position
-   * @return {CellContext}
+   * @param {!Vector} position
+   * @return {!CellContext}
    */
   getContext(position) {
     const left = this.getCell(position.left()).isSpecial();
@@ -191,8 +195,8 @@ export default class State {
   }
 
   /**
-   * @param {Vector} position
-   * @param {CellContext} context
+   * @param {!Vector} position
+   * @param {!CellContext} context
    */
   extendContext(position, context) {
     context.leftup = this.getCell(position.left().up()).isSpecial();
@@ -278,7 +282,7 @@ export default class State {
 
   /**
    * Outputs the entire contents of the diagram as text.
-   * @param {Box=} opt_box
+   * @param {?Box=} opt_box
    * @return {string}
    */
   outputText(opt_box) {
@@ -330,7 +334,7 @@ export default class State {
   /**
    * Loads the given text into the diagram starting at the given offset (centered).
    * @param {string} value
-   * @param {Vector} offset
+   * @param {!Vector} offset
    */
   fromText(value, offset) {
     const lines = value.split("\n");

@@ -1,30 +1,32 @@
-// Very simple electron wrapper script that allows us to use asciiflow2 as a desktop application
+"use strict";
+// Very simple electron wrapper script that allows us to use asciiflow2 as a
+// desktop application
 
-const electron = require('electron')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
+const electron = require("electron");
 
-const path = require('path')
-const url = require('url')
+const path = require("path");
+const url = require("url");
 
 let mainWindow;
 
-function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 600, icon: path.join(__dirname, 'images', 'favicon.png')});
+electron.app.on("ready", () => {
+  mainWindow = new electron.BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: path.join(__dirname, "images", "favicon.png"),
+  });
   mainWindow.setMenu(null);
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+    pathname: path.join(__dirname, "index.html"),
+    protocol: "file:",
+    slashes: true,
+  }));
 
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
-}
+  mainWindow.on("closed", () => {
+    mainWindow = null;
+  });
+});
 
-app.on('ready', createWindow)
-
-app.on('window-all-closed', function () {
-    app.quit()
-})
+electron.app.on("window-all-closed", () => {
+  electron.app.quit();
+});

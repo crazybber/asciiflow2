@@ -1,21 +1,21 @@
-import DrawFunction from "./function.js";
+import {DrawFunction} from "./function.js";
 import {drawLine} from "./utils.js";
 import {ALT_SPECIAL_VALUE} from "../constants.js";
-import State from "../state.js";
-import Vector from "../vector.js";
+import {State} from "../state.js";
+import {Vector} from "../vector.js";
 
 /**
  * @implements {DrawFunction}
  */
-export default class DrawLine {
+export class DrawLine {
   /**
-   * @param {State} state
+   * @param {!State} state
    * @param {boolean} isArrow
    */
   constructor(state, isArrow) {
     this.state = state;
     this.isArrow = isArrow;
-    /** @type {Vector} */ this.startPosition = null;
+    /** @type {?Vector} */ this.startPosition = null;
   }
 
   /** @inheritDoc */

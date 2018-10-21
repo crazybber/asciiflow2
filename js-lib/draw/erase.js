@@ -1,19 +1,19 @@
-import DrawFunction from "./function.js";
+import {DrawFunction} from "./function.js";
 import {ERASE_CHAR} from "../constants.js";
-import State from "../state.js";
-import Vector from "../vector.js";
+import {State} from "../state.js";
+import {Vector} from "../vector.js";
 
 /**
  * @implements {DrawFunction}
  */
-export default class DrawErase {
+export class DrawErase {
   /**
-   * @param {State} state
+   * @param {!State} state
    */
   constructor(state) {
     this.state = state;
-    this.startPosition = null;
-    this.endPosition = null;
+    /** @type {?Vector} */ this.startPosition = null;
+    /** @type {?Vector} */ this.endPosition = null;
   }
 
   /** @inheritDoc */

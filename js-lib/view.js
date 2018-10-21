@@ -1,22 +1,27 @@
-import State from "./state.js";
-import Vector from "./vector.js";
+import {State} from "./state.js";
+import {Vector} from "./vector.js";
 import * as c from "./constants.js";
 
 /**
  * Handles view operations, state and management of the screen.
  */
-export default class View {
+export class View {
   /**
-   * @param {State} state
+   * @param {!State} state
    */
   constructor(state) {
-    /** @type {State} */ this.state = state;
+    /** @type {!State} */ this.state = state;
 
-    /** @type {Element} */ this.canvas = document.getElementById("ascii-canvas");
-    /** @type {Object} */ this.context = this.canvas.getContext("2d");
+    const canvas = document.getElementById("ascii-canvas");
+    if (canvas === null) {
+      throw new Error("Element with id=\"ascii-canvas\" not found");
+    }
+
+    /** @type {!Element} */ this.canvas = canvas;
+    /** @type {!Object} */ this.context = this.canvas.getContext("2d");
 
     /** @type {number} */ this.zoom = 1;
-    /** @type {Vector} */ this.offset = new Vector(
+    /** @type {!Vector} */ this.offset = new Vector(
       c.MAX_GRID_WIDTH * c.CHAR_PIXELS_H / 2,
       c.MAX_GRID_HEIGHT * c.CHAR_PIXELS_V / 2
     );
@@ -197,7 +202,7 @@ export default class View {
   }
 
   /**
-   * @param {Vector} offset
+   * @param {!Vector} offset
    */
   setOffset(offset) {
     this.offset = offset;
@@ -214,8 +219,8 @@ export default class View {
 
   /**
    * Given a screen coordinate, find the frame coordinates.
-   * @param {Vector} vector
-   * @return {Vector}
+   * @param {!Vector} vector
+   * @return {!Vector}
    */
   screenToFrame(vector) {
     return new Vector(
@@ -226,8 +231,8 @@ export default class View {
 
   /**
    * Given a frame coordinate, find the screen coordinates.
-   * @param {Vector} vector
-   * @return {Vector}
+   * @param {!Vector} vector
+   * @return {!Vector}
    */
   frameToScreen(vector) {
     return new Vector(
@@ -238,8 +243,8 @@ export default class View {
 
   /**
    * Given a frame coordinate, return the indices for the nearest cell.
-   * @param {Vector} vector
-   * @return {Vector}
+   * @param {!Vector} vector
+   * @return {!Vector}
    */
   frameToCell(vector) {
     // We limit the edges in a bit, as most drawing needs a full context to work.
@@ -255,8 +260,8 @@ export default class View {
 
   /**
    * Given a cell coordinate, return the frame coordinates.
-   * @param {Vector} vector
-   * @return {Vector}
+   * @param {!Vector} vector
+   * @return {!Vector}
    */
   cellToFrame(vector) {
     return new Vector(
@@ -267,8 +272,8 @@ export default class View {
 
   /**
    * Given a screen coordinate, return the indices for the nearest cell.
-   * @param {Vector} vector
-   * @return {Vector}
+   * @param {!Vector} vector
+   * @return {!Vector}
    */
   screenToCell(vector) {
     return this.frameToCell(this.screenToFrame(vector));
@@ -276,8 +281,8 @@ export default class View {
 
   /**
    * Given a cell coordinate, return the on screen coordinates.
-   * @param {Vector} vector
-   * @return {Vector}
+   * @param {!Vector} vector
+   * @return {!Vector}
    */
   cellToScreen(vector) {
     return this.frameToScreen(this.cellToFrame(vector));

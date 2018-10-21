@@ -1,7 +1,7 @@
 /**
  * Stores a 2D vector.
  */
-export default class Vector {
+export class Vector {
   /**
    * @param {number} x
    * @param {number} y
@@ -12,7 +12,7 @@ export default class Vector {
   }
 
   /**
-   * @param {MouseEvent} event
+   * @param {!MouseEvent} event
    * @return {!Vector}
    */
   static fromMouseEvent(event) {
@@ -20,7 +20,7 @@ export default class Vector {
   }
 
   /**
-   * @param {TouchEvent} event
+   * @param {!TouchEvent} event
    * @param {number=} index
    * @return {!Vector}
    */
@@ -38,16 +38,16 @@ export default class Vector {
   }
 
   /**
-   * @param {Vector} other
-   * @return {Vector}
+   * @param {!Vector} other
+   * @return {!Vector}
    */
   subtract(other) {
     return new Vector(this.x - other.x, this.y - other.y);
   }
 
   /**
-   * @param {Vector} other
-   * @return {Vector}
+   * @param {!Vector} other
+   * @return {!Vector}
    */
   add(other) {
     return new Vector(this.x + other.x, this.y + other.y);
@@ -67,7 +67,7 @@ export default class Vector {
 
   /**
    * @param {number} scale
-   * @return {Vector}
+   * @return {!Vector}
    */
   scale(scale) {
     return new Vector(this.x * scale, this.y * scale);
@@ -76,7 +76,7 @@ export default class Vector {
   /**
    * Move up by value. Defaults to 1.
    * @param {number=} value
-   * @return {Vector}
+   * @return {!Vector}
    */
   up(value = 1) {
     return new Vector(this.x, this.y - value);
@@ -85,7 +85,7 @@ export default class Vector {
   /**
    * Move down by value. Defaults to 1.
    * @param {number=} value
-   * @return {Vector}
+   * @return {!Vector}
    */
   down(value = 1) {
     return new Vector(this.x, this.y + value);
@@ -94,7 +94,7 @@ export default class Vector {
   /**
    * Move left by value. Defaults to 1.
    * @param {number=} value
-   * @return {Vector}
+   * @return {!Vector}
    */
   left(value = 1) {
     return new Vector(this.x - value, this.y);
@@ -103,7 +103,7 @@ export default class Vector {
   /**
    * Move right by value. Defaults to 1.
    * @param {number=} value
-   * @return {Vector}
+   * @return {!Vector}
    */
   right(value = 1) {
     return new Vector(this.x + value, this.y);

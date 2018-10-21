@@ -1,13 +1,13 @@
-import DrawFunction from "./function.js";
+import {DrawFunction} from "./function.js";
 import {TOUCH_ENABLED} from "../constants.js";
-import State from "../state.js";
+import {State} from "../state.js";
 
 /**
  * @implements {DrawFunction}
  */
-export default class DrawFreeform {
+export class DrawFreeform {
   /**
-   * @param {State} state
+   * @param {!State} state
    * @param {?string} value
    */
   constructor(state, value) {

@@ -1,19 +1,19 @@
-import State from "../state.js";
-import Vector from "../vector.js";
-import DrawFunction from "./function.js";
+import {State} from "../state.js";
+import {Vector} from "../vector.js";
+import {DrawFunction} from "./function.js";
 import {drawLine} from "./utils.js";
 
 /**
  * @implements {DrawFunction}
  */
-export default class DrawBox {
+export class DrawBox {
   /**
-   * @param {State} state
+   * @param {!State} state
    */
   constructor(state) {
     this.state = state;
-    /** @type {Vector} */ this.startPosition = null;
-    /** @type {Vector} */ this.endPosition = null;
+    /** @type {?Vector} */ this.startPosition = null;
+    /** @type {?Vector} */ this.endPosition = null;
   }
 
   /** @inheritDoc */

@@ -1,15 +1,15 @@
 import * as c from "./constants.js";
-import Vector from "./vector.js";
-import View from "./view.js";
-import State from "./state.js";
-import DrawFunction from "./draw/function.js";
-import DrawBox from "./draw/box.js";
-import DrawErase from "./draw/erase.js";
-import DrawLine from "./draw/line.js";
-import DrawSelect from "./draw/select.js";
-import DrawText from "./draw/text.js";
-import DrawMove from "./draw/move.js";
-import DrawFreeform from "./draw/freeform.js";
+import {Vector} from "./vector.js";
+import {View} from "./view.js";
+import {State} from "./state.js";
+import {DrawFunction} from "./draw/function.js";
+import {DrawBox} from "./draw/box.js";
+import {DrawErase} from "./draw/erase.js";
+import {DrawLine} from "./draw/line.js";
+import {DrawSelect} from "./draw/select.js";
+import {DrawText} from "./draw/text.js";
+import {DrawMove} from "./draw/move.js";
+import {DrawFreeform} from "./draw/freeform.js";
 
 
 /**
@@ -24,28 +24,28 @@ const Mode = {
 /**
  * Handles user input events and modifies state.
  */
-export default class Controller {
+export class Controller {
   /**
-   * @param {View} view
-   * @param {State} state
+   * @param {!View} view
+   * @param {!State} state
    */
   constructor(view, state) {
-    /** @type {View} */ this.view = view;
-    /** @type {State} */ this.state = state;
+    /** @type {!View} */ this.view = view;
+    /** @type {!State} */ this.state = state;
 
-    /** @type {DrawFunction} */ this.drawFunction = new DrawBox(state);
+    /** @type {!DrawFunction} */ this.drawFunction = new DrawBox(state);
 
     /** @type {number} */ this.mode = Mode.NONE;
-    /** @type {Vector} */ this.dragOrigin = null;
-    /** @type {Vector} */ this.dragOriginCell = null;
+    /** @type {?Vector} */ this.dragOrigin = null;
+    /** @type {?Vector} */ this.dragOriginCell = null;
 
-    /** @type {Vector} */ this.lastMoveCell = null;
+    /** @type {?Vector} */ this.lastMoveCell = null;
 
     this.installBindings();
   }
 
   /**
-   * @param {Vector} position
+   * @param {!Vector} position
    */
   startDraw(position) {
     this.mode = Mode.DRAW;
@@ -53,7 +53,7 @@ export default class Controller {
   }
 
   /**
-   * @param {Vector} position
+   * @param {!Vector} position
    */
   startDrag(position) {
     this.mode = Mode.DRAG;
@@ -66,7 +66,7 @@ export default class Controller {
   }
 
   /**
-   * @param {Vector} position
+   * @param {!Vector} position
    */
   handleMove(position) {
     const moveCell = this.view.screenToCell(position);
@@ -115,12 +115,12 @@ export default class Controller {
       this.view.resizeCanvas();
     });
 
-    Array.prototype.forEach.call(document.querySelectorAll("#draw-tools > button.tool"), el => el.addEventListener("click", e => {
+    Array.prototype.forEach.call(document.querySelectorAll("#draw-tools > button.tool"), el => el.addEventListener("click", (/** @type {!MouseEvent} */ e) => {
       document.getElementById("text-tool-widget").style.display = "none";
       this.handleDrawButton(e.target.id);
     }));
 
-    Array.prototype.forEach.call(document.querySelectorAll("#file-tools > button.tool"), el => el.addEventListener("click", e => {
+    Array.prototype.forEach.call(document.querySelectorAll("#file-tools > button.tool"), el => el.addEventListener("click", (/** @type {!MouseEvent} */ e) => {
       this.handleFileButton(e.target.id);
     }));
 
@@ -130,6 +130,7 @@ export default class Controller {
 
     document.getElementById("import-submit-button").addEventListener("click", () => {
       this.state.clear();
+
       /** @type {string} */
       const importText = document.getElementById("import-area").value;
       this.state.fromText(
@@ -151,7 +152,7 @@ export default class Controller {
       this.view.setUseLines(false);
     });
 
-    window.addEventListener("keydown", (/** @type {KeyboardEvent} */ e) => {
+    window.addEventListener("keydown", (/** @type {!KeyboardEvent} */ e) => {
       this.handleKeyDown(e);
     });
 
@@ -203,7 +204,7 @@ export default class Controller {
       this.drawFunction = new DrawMove(this.state);
     }
     if (id === "text-button") {
-      this.drawFunction = new DrawText(this.state, this.view);
+      this.drawFunction = new DrawText(this.state);
     }
     if (id === "select-button") {
       this.drawFunction = new DrawSelect(this.state);
@@ -245,7 +246,7 @@ export default class Controller {
 
   /**
    * Handles key down events.
-   * @param {KeyboardEvent} event
+   * @param {!KeyboardEvent} event
    */
   handleKeyDown(event) {
     // Override some special characters so that they can be handled in one place.

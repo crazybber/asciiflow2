@@ -1,19 +1,20 @@
-import DrawFunction from "./function.js";
+import {DrawFunction} from "./function.js";
 import {drawLine} from "./utils.js";
-import State from "../state.js";
-import Vector from "../vector.js";
+import {State} from "../state.js";
+import {Vector} from "../vector.js";
 import * as c from "../constants.js";
 
 /**
  * @implements {DrawFunction}
  */
-export default class DrawMove {
+export class DrawMove {
   /**
-   * @param {State} state
+   * @param {!State} state
    */
   constructor(state) {
     this.state = state;
-    this.startPosition = null;
+
+    /** @type {?Vector} */ this.startPosition = null;
 
     /** @type {!Array<{position, clockwise, startIsAlt, midPointIsAlt, endIsAlt}>} */
     this.ends = [];
@@ -104,9 +105,9 @@ export default class DrawMove {
    * Follows a line in a given direction from the startPosition.
    * Returns a list of positions that were line 'junctions'. This is a bit of a
    * loose definition, but basically means a point around which we resize things.
-   * @param {Vector} startPosition
-   * @param {Vector} direction
-   * @return {!Array<Vector>}
+   * @param {!Vector} startPosition
+   * @param {!Vector} direction
+   * @return {!Array<!Vector>}
    */
   followLine(startPosition, direction) {
     let endPosition = startPosition.clone();
@@ -134,8 +135,8 @@ export default class DrawMove {
    * For a given position, finds the nearest cell that is of any interest to the
    * move tool, e.g. a corner or a line. Will look up to 1 cell in each direction
    * including diagonally.
-   * @param {Vector} position
-   * @return {Vector}
+   * @param {!Vector} position
+   * @return {!Vector}
    */
   snapToNearest(position) {
     if (this.state.getCell(position).isSpecial()) {

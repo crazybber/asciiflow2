@@ -12,6 +12,7 @@ set CMDLINE=%CMDLINE% --warning_level=VERBOSE
 set CMDLINE=%CMDLINE% --language_in=ECMASCRIPT6
 set CMDLINE=%CMDLINE% --compilation_level=ADVANCED_OPTIMIZATIONS
 set CMDLINE=%CMDLINE% --output_wrapper_file compile-output-wrapper.js
+set CMDLINE=%CMDLINE% --jscomp_warning=lintChecks
 :: This will expand CMDLINE first, then execute endlocal, then run the command
 endlocal && call %CMDLINE%
 popd %~dp0

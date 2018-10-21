@@ -1,4 +1,4 @@
-import Vector from "./vector.js";
+import {Vector} from "./vector.js";
 
 export const MAX_GRID_WIDTH = 2000;
 export const MAX_GRID_HEIGHT = 600;
@@ -34,7 +34,8 @@ export const KEY_COPY = "Copy";
 export const KEY_PASTE = "Paste";
 export const KEY_CUT = "Cut";
 
-// http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+// What's the best way to detect a 'touch screen' device using JavaScript?
+// https://stackoverflow.com/q/4817029
 export const TOUCH_ENABLED =
   "ontouchstart" in window ||
   "onmsgesturechange" in window;

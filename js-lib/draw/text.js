@@ -1,20 +1,20 @@
-import DrawFunction from "./function.js";
+import {DrawFunction} from "./function.js";
 import {ERASE_CHAR} from "../constants.js";
-import State from "../state.js";
-import Vector from "../vector.js";
+import {State} from "../state.js";
+import {Vector} from "../vector.js";
 import {drawText} from "./utils.js";
 
 /**
  * @implements {DrawFunction}
  */
-export default class DrawText {
+export class DrawText {
   /**
-   * @param {State} state
+   * @param {!State} state
    */
-  constructor(state, view) {
+  constructor(state) {
     this.state = state;
-    this.startPosition = null;
-    this.endPosition = null;
+    /** @type {?Vector} */ this.startPosition = null;
+    /** @type {?Vector} */ this.endPosition = null;
   }
 
   /** @inheritDoc */

@@ -3,21 +3,21 @@
  */
 
 import {ERASE_CHAR, ALL_SPECIAL_VALUES} from "./constants.js";
-import Vector from "./vector.js";
+import {Vector} from "./vector.js";
 
 /**
  * Represents a box with normalized position vectors.
  */
 export class Box {
   /**
-   * @param {Vector} a
-   * @param {Vector} b
+   * @param {!Vector} a
+   * @param {!Vector} b
    */
   constructor(a, b) {
-    /** type {number} */ this.startX = Math.min(a.x, b.x);
-    /** type {number} */ this.startY = Math.min(a.y, b.y);
-    /** type {number} */ this.endX = Math.max(a.x, b.x);
-    /** type {number} */ this.endY = Math.max(a.y, b.y);
+    /** type {!number} */ this.startX = Math.min(a.x, b.x);
+    /** type {!number} */ this.startY = Math.min(a.y, b.y);
+    /** type {!number} */ this.endX = Math.max(a.x, b.x);
+    /** type {!number} */ this.endY = Math.max(a.y, b.y);
   }
 
   /** @return {!Vector} */
@@ -30,7 +30,10 @@ export class Box {
     return new Vector(this.endX, this.endY);
   }
 
-  /** @return {boolean} */
+  /**
+   * @param {!Vector} position
+   * @return {boolean}
+   */
   contains(position) {
     return position.x >= this.startX && position.x <= this.endX &&
       position.y >= this.startY && position.y <= this.endY;
@@ -116,7 +119,7 @@ export class CellContext {
  */
 export class MappedValue {
   /**
-   * @param {Vector} position
+   * @param {!Vector} position
    * @param {string|null} value
    */
   constructor(position, value) {
@@ -130,8 +133,8 @@ export class MappedValue {
  */
 export class MappedCell {
   /**
-   * @param {Vector} position
-   * @param {Cell} cell
+   * @param {!Vector} position
+   * @param {!Cell} cell
    */
   constructor(position, cell) {
     this.position = position;

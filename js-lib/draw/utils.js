@@ -1,14 +1,14 @@
 import {SPECIAL_VALUE} from "../constants.js";
 import {Box} from "../common.js";
-import State from "../state.js";
-import Vector from "../vector.js";
+import {State} from "../state.js";
+import {Vector} from "../vector.js";
 
 /**
  * Draws a line on the diagram state.
  *
- * @param {State} state
- * @param {Vector} startPosition
- * @param {Vector} endPosition
+ * @param {!State} state
+ * @param {!Vector} startPosition
+ * @param {!Vector} endPosition
  * @param {boolean} clockwise
  * @param {string=} value
  */
@@ -46,8 +46,8 @@ export function drawLine(
 /**
  * Sets the cells scratch (uncommitted) values to the given text.
  * Handles newlines appropriately.
- * @param {State} state
- * @param {Vector} position
+ * @param {!State} state
+ * @param {!Vector} position
  * @param {string} text
  */
 export function drawText(state, position, text) {

@@ -1,17 +1,17 @@
-import Vector from "../vector.js";
+import {Vector} from "../vector.js";
 
 /**
  * Common interface for different drawing functions, e.g. box, line, etc.
  * @interface
  */
-export default class DrawFunction {
+export class DrawFunction {
   /** Start of drawing.
-   * @param {Vector} position
+   * @param {!Vector} position
    */
   start(position) {}
 
   /** Drawing move.
-   * @param {Vector} position
+   * @param {!Vector} position
    */
   move(position) {}
 
@@ -19,7 +19,7 @@ export default class DrawFunction {
   end() {}
 
   /** Cursor for given cell.
-   * @param {Vector} position
+   * @param {!Vector} position
    * @return {string}
    */
   getCursor(position) {}
