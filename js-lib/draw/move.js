@@ -22,8 +22,9 @@ export class DrawMove {
 
   /** @inheritDoc */
   start(position) {
-    this.startPosition =
-      c.TOUCH_ENABLED ? this.snapToNearest(position) : position;
+    // http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+    // TOUCH_ENABLED ? this.snapToNearest(position) : position;
+    this.startPosition = position;
     this.ends = [];
 
     // If this isn't a special cell then quit, or things get weird.

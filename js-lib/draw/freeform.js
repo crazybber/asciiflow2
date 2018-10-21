@@ -1,5 +1,4 @@
 import {DrawFunction} from "./function.js";
-import {TOUCH_ENABLED} from "../constants.js";
 import {State} from "../state.js";
 
 /**
@@ -13,16 +12,14 @@ export class DrawFreeform {
   constructor(state, value) {
     this.state = state;
     this.value = value;
-    if (TOUCH_ENABLED) {
-      document.getElementById("freeform-tool-input").value = "";
-      document.getElementById("freeform-tool-input").style.display = "none";
+    document.getElementById("freeform-tool-input").value = "";
+    document.getElementById("freeform-tool-input").style.display = "none";
+    setTimeout(() => {
+      document.getElementById("freeform-tool-input").style.display = "block";
       setTimeout(() => {
-        document.getElementById("freeform-tool-input").style.display = "block";
-        setTimeout(() => {
-          document.getElementById("freeform-tool-input").focus();
-        }, 0);
+        document.getElementById("freeform-tool-input").focus();
       }, 0);
-    }
+    }, 0);
   }
 
   /** @inheritDoc */
@@ -47,11 +44,9 @@ export class DrawFreeform {
 
   /** @inheritDoc */
   handleKey(value) {
-    if (TOUCH_ENABLED) {
-      this.value = document.getElementById("freeform-tool-input").value.charAt(0);
-      document.getElementById("freeform-tool-input").blur();
-      document.getElementById("freeform-tool-input").style.display = "none";
-    }
+    this.value = document.getElementById("freeform-tool-input").value.charAt(0);
+    document.getElementById("freeform-tool-input").blur();
+    document.getElementById("freeform-tool-input").style.display = "none";
     if (value.length === 1) {
       // The value is not a special character, so lets use it.
       this.value = value;

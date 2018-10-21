@@ -36,9 +36,10 @@ export const KEY_CUT = "Cut";
 
 // What's the best way to detect a 'touch screen' device using JavaScript?
 // https://stackoverflow.com/q/4817029
-export const TOUCH_ENABLED =
-  "ontouchstart" in window ||
-  "onmsgesturechange" in window;
+// Well... http://www.stucox.com/blog/you-cant-detect-a-touchscreen/
+//export const TOUCH_ENABLED =
+//  "ontouchstart" in window ||
+//  "onmsgesturechange" in window;
 
 export const DIR_LEFT = new Vector(-1, 0);
 export const DIR_RIGHT = new Vector(1, 0);
