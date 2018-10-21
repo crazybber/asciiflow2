@@ -23,4 +23,5 @@ if (window["ASCIIFLOW2_LOADED"]) {
   const touchController = new TouchController(controller);
   const desktopController = new DesktopController(controller);
   view.animate();
+  document.body.style.display = "";
 })();
