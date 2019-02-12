@@ -13,7 +13,6 @@ export class DrawBox {
   constructor(state) {
     this.state = state;
     /** @type {?Vector} */ this.startPosition = null;
-    /** @type {?Vector} */ this.endPosition = null;
   }
 
   /** @inheritDoc */
@@ -23,7 +22,6 @@ export class DrawBox {
 
   /** @inheritDoc */
   move(position) {
-    this.endPosition = position;
     this.state.clearDraw();
     drawLine(this.state, this.startPosition, position, true);
     drawLine(this.state, this.startPosition, position, false);
