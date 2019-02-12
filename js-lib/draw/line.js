@@ -1,6 +1,6 @@
 import {DrawFunction} from "./function.js";
 import {drawLine} from "./utils.js";
-import {ALT_SPECIAL_VALUE} from "../constants.js";
+import {SPECIAL_ARROW_LEFT, SPECIAL_ARROW_UP, SPECIAL_ARROW_RIGHT, SPECIAL_ARROW_DOWN} from "../constants.js";
 import {State} from "../state.js";
 import {Vector} from "../vector.js";
 
@@ -36,7 +36,19 @@ export class DrawLine {
 
     drawLine(this.state, this.startPosition, position, clockwise);
     if (this.isArrow) {
-      this.state.drawValue(position, ALT_SPECIAL_VALUE);
+      let endValue;
+
+      if (endContext.up) {
+        endValue = SPECIAL_ARROW_UP;
+      } else if (endContext.down) {
+        endValue = SPECIAL_ARROW_DOWN;
+      } else if (endContext.left) {
+        endValue = SPECIAL_ARROW_LEFT;
+      } else {
+        endValue = SPECIAL_ARROW_RIGHT;
+      }
+
+      this.state.drawValue(position, endValue);
     }
   }
 

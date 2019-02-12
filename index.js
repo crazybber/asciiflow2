@@ -14,6 +14,9 @@ electron.app.on("ready", () => {
     width: 800,
     height: 600,
     icon: path.join(__dirname, "images", "favicon.png"),
+    webPreferences: {
+      nodeIntegration: false,
+    },
   });
   mainWindow.setMenu(null);
   mainWindow.loadURL(url.format({
