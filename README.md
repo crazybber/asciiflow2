@@ -13,7 +13,15 @@ Then open your browser to the url that it outputs.
 ## Manual Setup
 
 Compile the JavaScript (requires Java):
-~/asciiflow2$ ./compile.sh
+
+```powershell
+asciiflow2> compile.bat
+```
+windows 
+
+```
+~/asciiflow2> ./compile.sh
+```
 
 If you get a permissions error:
 ~/asciiflow2$ chmod a+x closure-compiler.jar
@@ -22,7 +30,7 @@ If you get a permissions error:
 
 
 ```python
-~/asciiflow2$ python2 -m http.server
+~/asciiflow2$ python -m http.server
 ```
 
 Goto: http://localhost:8000/index.html

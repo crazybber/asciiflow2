@@ -6,7 +6,7 @@ COPY . /_
 RUN ["./compile.sh"]
 
 
-FROM python
+FROM python:alpine
 
 WORKDIR /srv
 COPY . /srv
