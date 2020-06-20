@@ -14,13 +14,13 @@ Then open your browser to the url that it outputs.
 
 Compile the JavaScript (requires Java):
 
-```powershell
-asciiflow2> compile.bat
+```bash
+~/asciiflow2$ ./compile.bat
 ```
 windows 
 
-```
-~/asciiflow2> ./compile.sh
+```powershell
+~/asciiflow2> compile.sh
 ```
 
 If you get a permissions error:
