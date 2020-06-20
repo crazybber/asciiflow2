@@ -1,11 +1,16 @@
-FROM python:3-alpine
+FROM java as build
 
-WORKDIR /asciiflow
-RUN addgroup -S asciiflow && adduser -S asciiflow -G asciiflow -h /asciiflow
-USER asciiflow
-COPY . ./
+WORKDIR /_
+COPY . /_
 
-HEALTHCHECK CMD netstat -an | grep 8000 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
+RUN ["./compile.sh"]
 
-ENTRYPOINT ["python3", "-m", "http.server"]
+
+FROM python
+
+WORKDIR /srv
+COPY . /srv
+COPY --from=build /_/js-compiled.js /srv/js-compiled.js
+
 EXPOSE 8000
+ENTRYPOINT ["/srv/entrypoint"]
