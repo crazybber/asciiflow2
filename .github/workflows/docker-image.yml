@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag asciiflow2:$(date +%s)
+    - name: Push docker images
+      if: github.ref == 'refs/heads/master'
+      run: |
+        docker login docker.pkg.github.com --username $GITHUB_ACTOR --password ${{ secrets.GITHUB_TOKEN }}
+        echo "Publishing images with VCS_REF=$(shell git rev-parse --short HEAD)"
+        docker images -f "label=org.label-schema.vcs-ref=$(shell git rev-parse --short HEAD)" --format {{.Repository}}:{{.Tag}}
+        docker push $$image
+        echo "docker push done"
