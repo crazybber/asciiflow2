@@ -21,7 +21,7 @@ jobs:
     - name: Push docker images
       if: github.ref == 'refs/heads/master'
       run: |
-        docker login docker.pkg.github.com --username $GITHUB_ACTOR --password ${{ secrets.GITHUB_TOKEN }}
+        docker login docker.pkg.github.com --username $GITHUB_ACTOR --password ${{ secrets.GITHUBPKG_TOKEN }}
         echo "Publishing images with VCS_REF=$(shell git rev-parse --short HEAD)"
         docker images -f "label=org.label-schema.vcs-ref=$(shell git rev-parse --short HEAD)" --format {{.Repository}}:{{.Tag}}
         make docker_push
