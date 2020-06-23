@@ -12,6 +12,7 @@ GO_MICRO_VERSION 		:= latest
 VERSION					:= $(shell git describe --tags || echo "HEAD")
 GOPATH					:= $(shell go env GOPATH)
 TIMEOUT  				:= 60s
+
 # don't override
 GIT_TAG					:= $(shell git describe --tags --abbrev=0 --always --match "v*")
 GIT_DIRTY 			        := $(shell git status --porcelain 2> /dev/null)
@@ -20,8 +21,21 @@ HAS_GOVVV				:= $(shell command -v govvv 2> /dev/null)
 HAS_PKGER				:= $(shell command -v pkger 2> /dev/null)
 HAS_KO					:= $(shell command -v ko 2> /dev/null)
 
-all: run
 
+# Type of service e.g api, service, web, cmd (default: "service")
+TYPE = $(or $(word 2,$(subst -, ,$*)), service)
+override TYPES:= service
+# Target for running the action
+TARGET = $(word 1,$(subst -, ,$*))
+
+override VERSION_PACKAGE = $(shell go list ./shared/config)
+BUILD_FLAGS = $(shell govvv -flags -version $(VERSION) -pkg $(VERSION_PACKAGE))
+
+# $(warning TYPES = $(TYPE), TARGET = $(TARGET))
+# $(warning VERSION = $(VERSION), HAS_GOVVV = $(HAS_GOVVV), HAS_KO = $(HAS_KO))
+# $(warning VERSION_PACKAGE = $(VERSION_PACKAGE), BUILD_FLAGS = $(BUILD_FLAGS))
+
+all: run
 
 
 check_dirty:
@@ -75,7 +89,7 @@ run: build
 
 docker docker-%:
 	@if [ -z $(TARGET) ]; then \
-		echo "Building images for all services..."; \
+		echo "Building image for ascii2..."; \
 		for type in $(TYPES); do \
 			echo "Building Type: $${type}..."; \
 			for _target in $${type}/*/; do \
